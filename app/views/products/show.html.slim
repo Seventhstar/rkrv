@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @product.name
+p
+  strong Code1c:
+  = @product.code1c
+p
+  strong Active:
+  = @product.active
+
+=> link_to 'Edit', edit_product_path(@product)
+'|
+=< link_to 'Back', products_path

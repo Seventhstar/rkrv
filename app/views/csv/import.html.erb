@@ -1,0 +1,19 @@
+<h1>csv#import</h1>
+
+<%= form_for :upload, html: { multipart: true } do |f| %>
+
+<div class="fileinputs1">
+        <%= f.file_field :csv, class: "file"%>
+  <div class="fakefile">
+    <input />
+    <span>выберите файл</span>
+  </div>
+</div>
+  <%= f.submit "Upload", :disable_with => 'Uploading...' %>
+<% end %>
+
+
+<%= form_tag import_phones_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import IP" %>
+<% end %>
