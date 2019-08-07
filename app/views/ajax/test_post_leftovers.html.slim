@@ -1,0 +1,13 @@
+= form_for :leftovers, url: ajax_post_leftovers_path do |f|
+  = f.hidden_field :store_id, value: 1
+
+  / = f.hidden_field ['counts']['count'], value: 12
+  / # = f.hidden_field ['counts']['product_id'], value: 1
+  input type="hidden" name="leftovers[counts][0][product_id]" value="4"
+  input type="hidden" name="leftovers[counts][0][count]" value="34"
+  input type="hidden" name="leftovers[counts][1][product_id]" value="3"
+  input type="hidden" name="leftovers[counts][1][count]" value="22"
+  input type="hidden" name="leftovers[counts][2][product_id]" value="6"
+  input type="hidden" name="leftovers[counts][2][count]" value="29"
+
+  input type="submit" name="commit" value="Save" data-disable-with="Saving..."

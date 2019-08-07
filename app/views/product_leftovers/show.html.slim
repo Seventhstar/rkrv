@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Product:
+  = @product_leftover.product
+p
+  strong Store:
+  = @product_leftover.store
+p
+  strong Date:
+  = @product_leftover.date
+p
+  strong Count:
+  = @product_leftover.count
+
+=> link_to 'Edit', edit_product_leftover_path(@product_leftover)
+'|
+=< link_to 'Back', product_leftovers_path

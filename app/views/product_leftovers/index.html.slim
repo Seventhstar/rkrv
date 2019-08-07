@@ -1,0 +1,28 @@
+#title_bar.title_bar
+  #titlebar_left
+    h1 Остатки на складах
+
+
+table#index_table_admin_users.index_table.index border="0" cellpadding="0" cellspacing="0" paginator="true"
+  thead
+    tr
+      th Товар
+      th Склад
+      th Дата
+      th Количество
+      th
+      th
+
+  tbody
+    - @product_leftovers.each do |product_leftover|
+      tr
+        td = product_leftover.product&.name
+        td = product_leftover.store&.name
+        td = format_date(product_leftover.date)
+        td = product_leftover.count
+        td = link_to 'Edit', edit_product_leftover_path(product_leftover)
+        td = link_to 'Destroy', product_leftover, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Product leftover', new_product_leftover_path

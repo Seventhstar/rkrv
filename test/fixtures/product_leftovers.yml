@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product: 
+  store: one
+  date: 2019-08-07
+  count: 9.99
+
+two:
+  product: 
+  store: two
+  date: 2019-08-07
+  count: 9.99

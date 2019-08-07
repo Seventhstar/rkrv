@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'ajax/get_active_products'
+  resources :product_leftovers
+  resources :stores
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users
@@ -8,5 +9,8 @@ Rails.application.routes.draw do
   resources :products
   get "csv/import_products"
   post "csv/import_products" => 'csv#upload_products'
+  get 'ajax/get_active_products'
+  post "ajax/post_leftovers"
+  get 'ajax/test_post_leftovers'
 
 end

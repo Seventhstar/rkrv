@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_06_105938) do
+ActiveRecord::Schema.define(version: 2019_08_07_133315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,11 +43,28 @@ ActiveRecord::Schema.define(version: 2019_08_06_105938) do
     t.index ["username"], name: "index_admin_users_on_username", unique: true
   end
 
+  create_table "product_leftovers", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "store_id"
+    t.date "date"
+    t.decimal "count", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_leftovers_on_product_id"
+    t.index ["store_id"], name: "index_product_leftovers_on_store_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "uom"
     t.string "code1c"
     t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stores", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -66,4 +83,5 @@ ActiveRecord::Schema.define(version: 2019_08_06_105938) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "product_leftovers", "stores"
 end
