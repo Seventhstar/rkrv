@@ -11,7 +11,7 @@ class AjaxController < ApplicationController
     puts "params: ", params
 
     data = leftover_params
-    # puts "data[store_id] #{data['store_id']}"
+    puts "data[store_id] #{data['store_id']}"
     store_id = data['store_id']
     # puts "data[counts] #{data['counts']}"
     data['counts'].each do |c|

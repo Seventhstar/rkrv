@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   post "csv/import_products" => 'csv#upload_products'
   get 'ajax/get_active_products'
   post "ajax/post_leftovers"
+  put "ajax/post_leftovers"
   get 'ajax/test_post_leftovers'
 
 end
