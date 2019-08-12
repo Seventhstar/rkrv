@@ -11,7 +11,7 @@ class AjaxController < ApplicationController
   def post_leftovers
     # puts "params: ", params
 
-    data = leftover_params
+    data = params
     # puts "data[store_id] #{data['store_id']}"
     store_id = data['storageId']
     # puts "data[counts] #{data['counts']}"
