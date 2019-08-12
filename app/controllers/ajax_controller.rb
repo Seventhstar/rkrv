@@ -1,6 +1,6 @@
 class AjaxController < ApplicationController
   respond_to :html, :json
-
+  skip_before_action :verify_authenticity_token
 
   def get_active_products
     @products = Product.active.to_json(only: [:id, :name])
