@@ -9,16 +9,16 @@ class AjaxController < ApplicationController
   end
 
   def post_leftovers
-    puts "params: ", params
+    # puts "params: ", params
 
     data = leftover_params
-    puts "data[store_id] #{data['store_id']}"
-    store_id = data['store_id']
+    # puts "data[store_id] #{data['store_id']}"
+    store_id = data['storageId']
     # puts "data[counts] #{data['counts']}"
-    data['counts'].each do |c|
-      puts "co #{c[1]} - #{c[1]['product_id']}"
-      fnd = ProductLeftover.find_or_create_by(product_id: c[1]['product_id'], store_id: store_id, date: Date.today)
-      fnd.count = c[1]['count']
+    data['ProductForUpload'].each do |c|
+      puts "co #{c} - #{c['product_id']}"
+      fnd = ProductLeftover.find_or_create_by(product_id: c['id'], store_id: store_id, date: Date.today)
+      fnd.count = c['count']
       fnd.save 
     end
 
