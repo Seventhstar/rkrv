@@ -4,6 +4,7 @@ class AjaxController < ApplicationController
 
   def get_active_products
     @products = Product.active.to_json(only: [:id, :name])
+    puts "@products #{@products}"
     respond_with(@products)
   end
 
