@@ -15,7 +15,7 @@ class AjaxController < ApplicationController
     # puts "data[store_id] #{data['store_id']}"
     store_id = data['storageId']
     # puts "data[counts] #{data['counts']}"
-    data['ProductForUpload'].each do |c|
+    data['productForUpload'].each do |c|
       puts "co #{c} - #{c['product_id']}"
       fnd = ProductLeftover.find_or_create_by(product_id: c['id'], store_id: store_id, date: Date.today)
       fnd.count = c['count']
