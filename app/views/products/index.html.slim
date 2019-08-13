@@ -12,8 +12,8 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
     tr
       th Наименование
       th Код 1С
+      th Ед. Изм.
       th Активен
-      th
       th
       th
 
@@ -23,8 +23,8 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
       tr
         td = product.name
         td = product.code1c
+        td = product.uom
         td = product.active
-        td = link_to 'Show', product
         td = link_to 'Edit', edit_product_path(product)
         td = link_to 'Destroy', product, data: { confirm: 'Are you sure?' }, method: :delete
 
