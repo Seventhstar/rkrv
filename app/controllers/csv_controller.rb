@@ -18,6 +18,8 @@ class CsvController < ApplicationController
   end
 
   def upload_catalog
+    return if params[:upload][:model] == 'user'
+    
     _obj = params[:upload][:model].classify.constantize
     fields = params[:upload][:fields].split(',').map{|f| f.strip}
     key  = fields[0]
