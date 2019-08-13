@@ -1,0 +1,17 @@
+<h1>csv#import products</h1>
+<%= form_for :upload, html: { multipart: true } do |f| %>
+  <fieldset class="inputs"><ol>
+    <li class="string input"><label for="model" class="label">Model:</label>
+      <%= f.text_field :model, class: "txt" %>
+    </li>
+    <li class="string input"><label for="model" class="label">Fields:</label>
+      <%= f.text_field :fields, value: 'code1c, name', class: "txt" %>
+    </li>
+  </ol></fieldset>
+  <fieldset class="actions">
+    <div class="fileinputs">
+      <ol><li class="cancel"><%= f.file_field :csv, class: "file"%></li></ol>
+    </div>
+  </fieldset>
+  <%= f.submit "Загрузить", disable_with: 'Uploading...' %>
+<% end %>

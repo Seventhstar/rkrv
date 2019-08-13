@@ -7,8 +7,13 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :products
+
   get "csv/import_products"
   post "csv/import_products" => 'csv#upload_products'
+
+  get "csv/import_catalog"
+  post "csv/import_catalog" => 'csv#upload_catalog'
+
   get 'ajax/get_active_products'
   post "ajax/post_leftovers"
   put "ajax/post_leftovers"
