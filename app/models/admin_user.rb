@@ -7,7 +7,11 @@ class AdminUser < ApplicationRecord
   attr_accessor :username, :email, :password, :password_confirmation, :remember_me, :login
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
+    puts "conditions #{conditions}"
+
+
     login = conditions.delete(:login)
-    where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    email = conditions.delete(:email)
+    where(conditions).where(["lower(username) = :value OR lower(email) = :value", { value: email.downcase }]).first
   end
 end

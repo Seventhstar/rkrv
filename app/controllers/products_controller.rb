@@ -1,10 +1,11 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-
+  # before_action :logged_in_user
+  before_action :authenticate_user!
   respond_to :html, :json
 
   def index
-    @products = Product.all
+    @products = Product.order(:name)
     respond_with(@products)
   end
 

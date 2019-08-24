@@ -1,0 +1,44 @@
+<!-- <script src="vuejs-datepicker.min.js"></script> -->
+<!-- <script src=" asset_path1('ru.js') %>"></script> -->
+
+<script>
+  Vue.component('v-select', VueSelect.VueSelect)
+  Vue.component('datepicker', vuejsDatepicker )
+
+  let app = new Vue({
+    el: '.vue_app',
+    data: <%= fill_vue_data(@money_transfer, {
+      model: 'money_transfer',
+      noteValid: '',
+      formValid: false,
+      filteredProjects: [],
+      texts: 'comment date new_shop_target',
+      list_values: 'reason new_reason project target',
+      lists: "",
+      user:   v_value(@money_transfer, "user", nil, current_user)
+    })
+    %>,
+    
+    updated(){
+      this.onInput();
+    },
+
+    mounted(){
+      this.$root.$on('onInput', this.onInput);
+    },
+
+    created(){
+    },
+
+    watch: {
+    },
+
+    methods: {
+      onInput(e){
+
+      }
+    }
+    
+  });
+
+</script>

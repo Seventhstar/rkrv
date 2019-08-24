@@ -12,5 +12,7 @@
 //
 //= require rails-ujs
 //= require activestorage
+//= require vue
+//= vuejs-datepicker.ru
 //= require turbolinks
 //= require_tree .

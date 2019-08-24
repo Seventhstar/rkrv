@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong Date:
+  = @money_transfer.date
+p
+  strong Safe from:
+  = @money_transfer.safe_from
+p
+  strong Safe to:
+  = @money_transfer.safe_to
+p
+  strong Amount:
+  = @money_transfer.amount
+p
+  strong Comment:
+  = @money_transfer.comment
+p
+  strong User:
+  = @money_transfer.user
+
+=> link_to 'Edit', edit_money_transfer_path(@money_transfer)
+'|
+=< link_to 'Back', money_transfers_path

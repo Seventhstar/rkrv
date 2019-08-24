@@ -1,0 +1,10 @@
+.inp_btn, span.check_img {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    vertical-align: top;
+}
+.inp_btn.checkbox, span.check_img {width: 18px; height: 18px; background-position: -87px 0; }
+.inp_btn.checkbox, span.check_img { background: asset-url('pict01.png'); width: 18px; height: 18px; background-position: -87px 0; }
+.inp_btn.checkbox.active, span.check_img.checked {background-position: -87px -20px;}

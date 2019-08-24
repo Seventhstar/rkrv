@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_13_103451) do
+ActiveRecord::Schema.define(version: 2019_08_19_093505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(version: 2019_08_13_103451) do
     t.index ["username"], name: "index_admin_users_on_username", unique: true
   end
 
+  create_table "money_transfers", force: :cascade do |t|
+    t.date "date"
+    t.integer "safe_from"
+    t.integer "safe_to"
+    t.integer "amount"
+    t.string "comment"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_money_transfers_on_user_id"
+  end
+
   create_table "organisations", force: :cascade do |t|
     t.string "name"
     t.string "code1c"
@@ -63,7 +75,7 @@ ActiveRecord::Schema.define(version: 2019_08_13_103451) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
-    t.string "uom"
+    t.string "uom_id"
     t.string "code1c"
     t.boolean "active"
     t.datetime "created_at", null: false
@@ -86,6 +98,13 @@ ActiveRecord::Schema.define(version: 2019_08_13_103451) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "uoms", force: :cascade do |t|
+    t.string "name"
+    t.string "mobile_app_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -95,11 +114,14 @@ ActiveRecord::Schema.define(version: 2019_08_13_103451) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
+    t.boolean "approved", default: false, null: false
+    t.index ["approved"], name: "index_users_on_approved"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "money_transfers", "users"
   add_foreign_key "product_leftovers", "stores"
   add_foreign_key "saves", "organisations"
 end

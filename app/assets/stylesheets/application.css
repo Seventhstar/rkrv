@@ -13,3 +13,5 @@
  *= require_tree .
  *= require_self
  */
+
+#header ul.tabs li:first-child {margin-left: 10px}

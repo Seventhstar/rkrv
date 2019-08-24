@@ -3,10 +3,34 @@ class AjaxController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def get_active_products
-    @products = Product.active.to_json(only: [:id, :name])
-    puts "@products #{@products}"
+    @products = Product.active.map{|p| {id: p.id, name: p.name_with_mobile_uom_name}}
+
+    # puts "@products #{@products}"
     respond_with(@products)
   end
+
+  def switch_check
+    if params[:model] == 'UserRole'
+      item = UserRole.where(user_id: params[:item_id], role_id: params[:field])
+      if params[:checked] == 'true'
+        item = UserRole.new
+        item.user_id = params[:item_id]
+        item.role_id = params[:field]
+        item.save
+      else
+        item.destroy_all
+      end
+
+    elsif params[:model]
+      item = params[:model].classify.constantize.find(params[:item_id])
+      if !item.nil?
+        item[params[:field]] = params[:checked]
+        item.save
+      end
+    end
+    head :ok
+  end
+
 
   def post_leftovers
     # puts "params: ", params
