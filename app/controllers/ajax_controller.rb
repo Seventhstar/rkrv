@@ -1,7 +1,7 @@
 class AjaxController < ApplicationController
   respond_to :html, :json
-  skip_before_action :verify_authenticity_token
-
+  #skip_before_action :verify_authenticity_token
+  before_action :authenticate_user!
   def get_active_products
     @products = Product.active.map{|p| {id: p.id, name: p.name_with_mobile_uom_name}}
 
