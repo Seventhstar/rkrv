@@ -1,0 +1,34 @@
+.vue_app
+  = form_for @staff do |f|
+    .box_wrap.box_wrap_1
+      .panel-left
+        .grid_middle_label_name
+
+          = f.label :name
+          = f.text_field :name
+
+          = f.label :phone
+          = f.text_field :phone
+
+          = f.label :department
+          v-chosen name="department" placeholder="Отдел..." :input="true"
+          
+          div
+          .actions = f.submit
+
+      .panel-left
+        .grid_middle_label_name
+
+          = f.label :in_date
+          datepicker v-model="in_date" :monday-first="true"
+
+          = f.label :out_date
+          datepicker v-model="out_date" :monday-first="true"
+
+          = f.label :birthday
+          datepicker v-model="birthday" :monday-first="true"
+
+          = f.label :medbook
+          datepicker v-model="medbook" :monday-first="true"
+
+== render 'form_vue'

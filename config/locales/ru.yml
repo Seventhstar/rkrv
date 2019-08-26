@@ -185,6 +185,14 @@ ru:
         date: Дата
         comment: Комментарий
         user: Ответственный
+      staff:
+        name: ФИО
+        phone: Телефон
+        department: Отдел
+        in_date: Дата приема
+        out_date: Дата увольнения
+        birthday: День рождения
+        medbook: Мед. книжка
 
     select:
       prompt: 'Выберите: '

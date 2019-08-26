@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_26_081757) do
+ActiveRecord::Schema.define(version: 2019_08_26_095032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,19 @@ ActiveRecord::Schema.define(version: 2019_08_26_081757) do
     t.index ["organisation_id"], name: "index_saves_on_organisation_id"
   end
 
+  create_table "staffs", force: :cascade do |t|
+    t.string "name"
+    t.string "phone"
+    t.bigint "department_id"
+    t.date "in_date"
+    t.date "out_date"
+    t.date "birthday"
+    t.date "medbook"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_staffs_on_department_id"
+  end
+
   create_table "stores", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -132,4 +145,5 @@ ActiveRecord::Schema.define(version: 2019_08_26_081757) do
   add_foreign_key "money_transfers", "users"
   add_foreign_key "product_leftovers", "stores"
   add_foreign_key "saves", "organisations"
+  add_foreign_key "staffs", "departments"
 end

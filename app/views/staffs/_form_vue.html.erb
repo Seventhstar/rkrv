@@ -4,17 +4,16 @@
 
   let app = new Vue({
     el: '.vue_app',
-    data: <%= fill_vue_data(@money_transfer, {
-      model: 'money_transfer',
+    data: <%= fill_vue_data(@staff, {
+      model: 'staff',
       noteValid: '',
       formValid: false,
       filteredProjects: [],
-      texts: 'comment date',
-      list_values: 'safe_from safe_to user',
-      lists: "safe_froms safe_tos users"
+      texts: 'comment in_date out_date',
+      list_values: 'department',
+      lists: "departments"
     })
     %>,
-      // user:   v_value(@money_transfer, "user", nil, current_user)
     
     updated(){
       this.onInput();

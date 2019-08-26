@@ -1,0 +1,27 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @staff.name
+p
+  strong Phone:
+  = @staff.phone
+p
+  strong Department:
+  = @staff.department
+p
+  strong In date:
+  = @staff.in_date
+p
+  strong Out date:
+  = @staff.out_date
+p
+  strong Birthday:
+  = @staff.birthday
+p
+  strong Medbook:
+  = @staff.medbook
+
+=> link_to 'Edit', edit_staff_path(@staff)
+'|
+=< link_to 'Back', staffs_path
