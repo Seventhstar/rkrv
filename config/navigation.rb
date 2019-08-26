@@ -59,6 +59,11 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :products, 'Продукты', products_path
     primary.item :product_leftovers, 'Остатки', product_leftovers_path
     primary.item :money_transfers, 'Деньги', money_transfers_path
+
+    if current_user.admin? 
+    #   import_catalog
+    end
+
     # primary.item :key_1, 'name', url, options
 
     #primary.item :logout, 'Выйти', destroy_user_session_path, method: :delete

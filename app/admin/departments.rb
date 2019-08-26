@@ -1,8 +1,4 @@
-ActiveAdmin.register User do
-  permit_params :email, :password, :username, :approved, :admin,
-                :password_confirmation, :reset_password_token, 
-                :reset_password_sent_at, :remember_created_at
-
+ActiveAdmin.register Department do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

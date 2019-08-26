@@ -21,12 +21,12 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
     - @money_transfers.each do |money_transfer|
       tr
         td = money_transfer.date
-        td = money_transfer.safe_from
-        td = money_transfer.safe_to
+        td = money_transfer.safe_from&.name
+        td = money_transfer.safe_to&.name
         td = money_transfer.amount
-        td = money_transfer.user
+        td = money_transfer.user&.name
         td = money_transfer.comment
-        = tool_icons(product, {icons: 'edit'})
+        = tool_icons(money_transfer, {icons: 'edit'})
 
 br
 

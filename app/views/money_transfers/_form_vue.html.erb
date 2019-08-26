@@ -12,12 +12,12 @@
       noteValid: '',
       formValid: false,
       filteredProjects: [],
-      texts: 'comment date new_shop_target',
-      list_values: 'reason new_reason project target',
-      lists: "",
-      user:   v_value(@money_transfer, "user", nil, current_user)
+      texts: 'comment date',
+      list_values: 'safe_from safe_to user',
+      lists: "safe_froms safe_tos users"
     })
     %>,
+      // user:   v_value(@money_transfer, "user", nil, current_user)
     
     updated(){
       this.onInput();

@@ -11,7 +11,34 @@
 @import "active_admin/mixins";
 @import "active_admin/base";
 
+// 1px solid #c9d0d6
+
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+#header li.menu_item.m_icon a {
+    display: inline-block;
+    line-height: 36px;
+    // background: asset-url('options.png') no-repeat;
+    padding: 2px;
+    padding: 0px;
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+}
+
+#options a{background: asset-url('options.png') no-repeat; }
+#import a{background: asset-url('import.png') no-repeat; }
+
+.box_wrap input[type=text] {
+  // width: 100%;
+      width: unset;
+}
+
+.box_wrap label {margin-top: 6px; text-align: right; font-weight: bold; font-size: 12px;}
+.box_wrap label::after {content: ":";}
+
+.vdp-datepicker input[type=text]{width: 120px;} 
+.box_wrap input[type=number] {width: 98px;}

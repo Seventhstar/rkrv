@@ -16,3 +16,41 @@
 //= vuejs-datepicker.ru
 //= require turbolinks
 //= require_tree .
+
+function toInt(d){
+  if (isNaN(d)) return 0;
+  if (v_nil(d)) return 0;
+  return parseInt(d);
+}
+
+function to_sum(d){ 
+  if (isNaN(d)) return 0;
+  s = d.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1 ");
+  return s;
+}
+
+var v_nil = function(v, zeroIsNil = false){ 
+  if (typeof(v) == "object") 
+    return v === null || v === undefined || v.value === undefined || v.value === 0;
+
+  if (zeroIsNil && v === 0) return true
+  
+  return v === null || v === undefined || v === '';
+}
+
+var e_nil = function(id) {
+  return e_val(id) === "";
+}
+
+var e_val = function(id) {
+  let v = document.getElementById(id);
+  if (v === null) return "";
+  return v.value;
+}
+
+var format_date = function(date) {
+  if (v_nil(date)) date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+  if (date.includes('-')) return date.split('-').reverse().join('.');
+  return date;
+}
+

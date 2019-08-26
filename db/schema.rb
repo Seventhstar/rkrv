@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_093505) do
+ActiveRecord::Schema.define(version: 2019_08_26_081757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,10 +43,17 @@ ActiveRecord::Schema.define(version: 2019_08_19_093505) do
     t.index ["username"], name: "index_admin_users_on_username", unique: true
   end
 
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
+    t.string "code1c"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "money_transfers", force: :cascade do |t|
     t.date "date"
-    t.integer "safe_from"
-    t.integer "safe_to"
+    t.integer "safe_from_id"
+    t.integer "safe_to_id"
     t.integer "amount"
     t.string "comment"
     t.bigint "user_id"
@@ -115,6 +122,7 @@ ActiveRecord::Schema.define(version: 2019_08_19_093505) do
     t.datetime "updated_at", null: false
     t.string "username"
     t.boolean "approved", default: false, null: false
+    t.boolean "admin", default: false
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

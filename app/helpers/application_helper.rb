@@ -279,7 +279,7 @@ module ApplicationHelper
           if raw 
             data[l] = collection 
           else
-            # puts "1. data[:lists] #{data[:lists]}, l: #{l}", "collection: #{collection}"
+            # puts "1. data[:lists] #{data[:lists]}, l: #{l}", "collection: #{collection} #{collection.length}"
             data[l] = select_src(collection, "name", false, fields) 
             # puts "2. l #{l} collection: #{collection}", "data[l] #{data[l]}"
           end
@@ -295,6 +295,7 @@ module ApplicationHelper
 
   def select_src(collection, attr_name = "name", safe = false, fields_str = nil)
     # puts collection.class
+    # efwe
     if fields_str.nil? 
       collection = collection.collect{|u| 
         {label: u.try(attr_name), value: u.id} if u.try(attr_name).present? 

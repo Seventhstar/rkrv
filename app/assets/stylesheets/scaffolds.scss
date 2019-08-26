@@ -13,11 +13,7 @@ p, ol, ul, td {
   line-height: 18px;
 }
 
-pre {
-  background-color: #eee;
-  padding: 10px;
-  font-size: 11px;
-}
+pre {background-color: #eee; padding: 10px; font-size: 11px; }
 
 a:not(.icon) {
   color: #000;
@@ -32,13 +28,8 @@ a:not(.icon) {
   }
 }
 
-th {
-  padding-bottom: 5px;
-}
-
-td {
-  padding: 0 5px 7px;
-}
+th {padding-bottom: 5px; }
+td {padding: 0 5px 7px; }
 
 div {
   &.field, &.actions {
@@ -46,9 +37,16 @@ div {
   }
 }
 
-#notice {
-  color: green;
-}
+.v-select li>a {text-decoration: none;}
+.v-select .dropdown-toggle{max-height: 32px; min-height: 32px;}
+
+.panel-left .tbl_fc_1 .lbl {width: 448px; overflow-x: hidden;}
+.left,.panel-left, .panel-left3 {float: left;}
+.right, .panel-right, .panel-right2{float: right;}
+.box_wrap_1 .panel-left{width: 600px;}
+.box_wrap_1 .panel-right{width: 664px;}
+
+#notice {color: green;}
 
 .field_with_errors {
   padding: 2px;

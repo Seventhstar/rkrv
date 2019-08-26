@@ -1,25 +1,28 @@
 .vue_app
   = form_for @money_transfer do |f|
-    .field
-      = f.label :date
-      datepicker placeholder="Select Date" v-model="date" :monday-first="true"
-      / vuejs-datepicker
-      = f.date_select :date
-    .field
-      = f.label :safe_from
-      = f.text_field :safe_from
-    .field
-      = f.label :safe_to
-      = f.text_field :safe_to
-    .field
-      = f.label :amount
-      = f.number_field :amount
-    .field
-      = f.label :comment
-      = f.text_field :comment
-    .field
-      = f.label :user
-      = f.text_field :user
-    .actions = f.submit
+    .box_wrap.box_wrap_1
+      .panel-left
+        .grid_middle_label_name
+          = f.label :date
+          datepicker placeholder="Select Date" v-model="date" :monday-first="true"
+
+          = f.label :safe_from
+          v-chosen name="safe_from" placeholder="Откуда..." :input="true"
+
+          = f.label :safe_to
+          v-chosen name="safe_to" placeholder="Куда..." :input="true"
+
+          = f.label :amount
+          = f.number_field :amount
+
+          = f.label :comment
+          = f.text_field :comment
+
+          = f.label :user
+          v-chosen name="user" placeholder="Ответственный..." :input="true"
+
+          div
+          .actions 
+            = f.submit
 
 == render 'form_vue'
