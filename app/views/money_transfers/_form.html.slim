@@ -4,7 +4,10 @@
       .panel-left
         .grid_middle_label_name
           = f.label :date
-          datepicker placeholder="Select Date" v-model="date" :monday-first="true"
+          v-date name="date" 
+          
+          = f.label :money_transfer_type
+          v-chosen name="money_transfer_type" placeholder="Тип перемещения..." :input="true"
 
           = f.label :safe_from
           v-chosen name="safe_from" placeholder="Откуда..." :input="true"

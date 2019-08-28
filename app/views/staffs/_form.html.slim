@@ -20,15 +20,16 @@
         .grid_middle_label_name
 
           = f.label :in_date
-          datepicker v-model="in_date" :monday-first="true"
+          v-date name="in_date"
 
           = f.label :out_date
-          datepicker v-model="out_date" :monday-first="true"
+          v-date name="out_date"
+          / datepicker v-model="out_date" :monday-first="true"
 
           = f.label :birthday
-          datepicker v-model="birthday" :monday-first="true"
+          v-date name="birthday"
 
           = f.label :medbook
-          datepicker v-model="medbook" :monday-first="true"
+          v-date name="medbook"
 
 == render 'form_vue'

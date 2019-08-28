@@ -43,6 +43,7 @@ class MoneyTransfersController < ApplicationController
       @users = User.order(:username).map{|u| {id: u.id, name: u.username.present? ? u.username : u.email}}
       @safe_tos = Safe.order(:name)
       @safe_froms   = Safe.order(:name)
+      @money_transfer_types = MoneyTransferType.order(:name) 
       # puts "users: #{@users} #{@users.count}"
     end
 
@@ -51,6 +52,6 @@ class MoneyTransfersController < ApplicationController
     end
 
     def money_transfer_params
-      params.require(:money_transfer).permit(:date, :safe_from_id, :safe_to_id, :amount, :comment, :user_id)
+      params.require(:money_transfer).permit(:date, :safe_from_id, :safe_to_id, :amount, :comment, :user_id, :money_transfer_type_id)
     end
 end

@@ -1,0 +1,2 @@
+class MoneyTransferType < ApplicationRecord
+end

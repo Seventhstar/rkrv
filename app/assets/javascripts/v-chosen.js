@@ -66,9 +66,9 @@ Vue.component('v-chosen', {
       } else {
         this.options = this.$parent[this.name + "s"];
       }
-      console.log('this.options', this.options)
+      // console.log('this.options', this.options)
       // console.log('this.selected', this.selected)
-      console.log('this.$parent[this.name]', this.$parent[this.name], 'this.name', this.name)
+      // console.log('this.$parent[this.name]', this.$parent[this.name], 'this.name', this.name)
       // this.hostCell = this.$parent[this.name]
 
       if (this.options !== undefined){
@@ -87,7 +87,7 @@ Vue.component('v-chosen', {
           // let current = this.$parent[this.nameParts[0]]
           // this.hostCell = this.$parent[this.nameParts[0]][this.nameParts[1]+'_id']
           // selected = {value: current[this.nameParts[1]+'_id'], label: current[this.nameParts[1]+'_name']}
-          console.log('selected', this.$parent[this.name], 'ind', ind)
+          // console.log('selected', this.$parent[this.name], 'ind', ind)
           // if (ind != -1) this.onUpdate(this.$parent[this.name])
         }
         if (this.options.indexOf(this.$parent[this.name]) === -1 && this.from_array !== undefined) {
@@ -99,7 +99,7 @@ Vue.component('v-chosen', {
 
     methods: {
       onUpdate(val) {
-        console.log('onUpdate val', val)
+        // console.log('onUpdate val', val)
         if (val === undefined) {this.$parent[this.name] = []; return;}
         let label = (v_nil(val)) ? undefined : val.label;
         this.localValue = (v_nil(val)) ? 0 : val.value;
@@ -109,7 +109,7 @@ Vue.component('v-chosen', {
           // this.$parent[this.nameParts[0]][this.nameParts[1]+'_name'] = val.label
         // }
         // else 
-        // this.$parent[this.name] = val
+        this.$parent[this.name] = val
         // this.hostCell = val
                                      
         this.$root.$emit('onInput', {value: this.localValue, key: this.k, index: this.index, name: this.name, label: label});

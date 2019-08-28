@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :products
   resources :money_transfers
   resources :product_leftovers
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  # devise_for :admin_users, ActiveAdmin::Devise.config
 
 
   post "ajax/switch_check"
@@ -20,18 +20,26 @@ Rails.application.routes.draw do
   put "ajax/post_leftovers"
   get 'ajax/test_post_leftovers'
 
-  get    'signup'  => 'users#new'
+  get    'sign_up'  => 'users#new'
+  post   'sign_up'  => 'users#create'
+  # get ‘/signup’ => ‘users#new’
+  # post ‘/users’ => ‘users#create’
 
-  devise_scope :user do
-    get 'sign_in', to: 'devise/sessions#new'
-    post 'sign_in', to: 'devise/sessions#create'
-    # get 'login', to: 'devise/sessions#new'  
-  end
+  get    'login'   => 'sessions#new'                                   
+  post   'login'   => 'sessions#create'
+  delete 'logout'  => 'sessions#destroy'
+  resources :users
 
-  devise_for :users, controllers: {sessions: 'users/sessions'}
+  # devise_scope :user do
+  #   get 'sign_in', to: 'devise/sessions#new'
+  #   post 'sign_in', to: 'devise/sessions#create'
+  #   # get 'login', to: 'devise/sessions#new'  
+  # end
+
+  # devise_for :users, controllers: {sessions: 'users/sessions'}
   
   # get    'login'   => 'devise/sessions#new'                                   
-  delete 'logout'  => 'devise/sessions#destroy'
+  # delete 'logout'  => 'devise/sessions#destroy'
 
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]

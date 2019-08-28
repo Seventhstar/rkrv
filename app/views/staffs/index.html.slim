@@ -24,8 +24,8 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
         td = staff.name
         td = staff.phone
         td = staff.department&.name
-        td = staff.in_date
-        td = staff.out_date
-        td = staff.birthday
-        td = staff.medbook
+        td = format_date(staff.in_date)
+        td = format_date(staff.out_date)
+        td = format_date(staff.birthday)
+        td = format_date(staff.medbook)
         = tool_icons(staff)

@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-  # before_action :logged_in_user
-  before_action :authenticate_user!
+  before_action :logged_in_user
+  # before_action :authenticate_user!
   respond_to :html, :json
 
   def index

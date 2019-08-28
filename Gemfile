@@ -25,6 +25,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', require: 'bcrypt'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -63,10 +64,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'pg'
 gem 'activeadmin'
-gem 'devise'
+#gem 'devise'
 gem 'slim'
 gem 'responders'
 gem 'slim-rails'
 gem 'fastercsv'
 gem 'yaml_db', git: 'https://github.com/Seventhstar/yaml_db2.git'
 gem 'simple-navigation', '4.0.3'
+#gem 'simple_token_authentication'

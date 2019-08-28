@@ -10,6 +10,7 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
   thead
     tr
       th Дата
+      th Тип
       th Откуда
       th Куда
       th Сумма
@@ -20,7 +21,8 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
   tbody
     - @money_transfers.each do |money_transfer|
       tr
-        td = money_transfer.date
+        td = format_date(money_transfer.date)
+        td = money_transfer.money_transfer_type&.name
         td = money_transfer.safe_from&.name
         td = money_transfer.safe_to&.name
         td = money_transfer.amount

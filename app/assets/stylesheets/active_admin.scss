@@ -40,5 +40,13 @@
 .box_wrap label {margin-top: 6px; text-align: right; font-weight: bold; font-size: 12px;}
 .box_wrap label::after {content: ":";}
 
-.vdp-datepicker input[type=text]{width: 120px;} 
+.vdp-datepicker input[type=text]{width: 96px; border: none; background-color: transparent;} 
+.vdp-datepicker input[type=text]:focus {box-shadow: none; border: none;}
+.vdp-datepicker {float: left; }
+.inp_w.vdate {border: 1px solid #c9d0d6; width: 120px; border-radius: 5px;}
+.inp_w.vdate:hover {border: 1px solid #99a2aa; box-shadow: 0 0 4px #99a2aa; cursor: pointer;}
+
+.clear span { font-size: 18px; font-weight: bolder; line-height: 1; color: #ca0000; cursor: pointer; 
+              line-height: 28px; border-radius: 3px;}
+
 .box_wrap input[type=number] {width: 98px;}

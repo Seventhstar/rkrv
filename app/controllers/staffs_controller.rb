@@ -24,12 +24,12 @@ class StaffsController < ApplicationController
   def create
     @staff = Staff.new(staff_params)
     @staff.save
-    respond_with(@staff)
+    respond_with(@staff, location: staffs_path)
   end
 
   def update
     @staff.update(staff_params)
-    respond_with(@staff)
+    respond_with(@staff, location: staffs_path)
   end
 
   def destroy

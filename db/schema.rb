@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_26_095032) do
+ActiveRecord::Schema.define(version: 2019_08_28_171053) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -50,6 +51,12 @@ ActiveRecord::Schema.define(version: 2019_08_26_095032) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "money_transfer_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "money_transfers", force: :cascade do |t|
     t.date "date"
     t.integer "safe_from_id"
@@ -59,6 +66,8 @@ ActiveRecord::Schema.define(version: 2019_08_26_095032) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "money_transfer_type_id", default: 1
+    t.index ["money_transfer_type_id"], name: "index_money_transfers_on_money_transfer_type_id"
     t.index ["user_id"], name: "index_money_transfers_on_user_id"
   end
 
@@ -136,12 +145,16 @@ ActiveRecord::Schema.define(version: 2019_08_26_095032) do
     t.string "username"
     t.boolean "approved", default: false, null: false
     t.boolean "admin", default: false
+    t.string "token"
+    t.string "password_digest"
+    t.string "remember_digest"
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "money_transfers", "money_transfer_types"
   add_foreign_key "money_transfers", "users"
   add_foreign_key "product_leftovers", "stores"
   add_foreign_key "saves", "organisations"
