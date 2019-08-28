@@ -25,7 +25,7 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
         td = money_transfer.money_transfer_type&.name
         td = money_transfer.safe_from&.name
         td = money_transfer.safe_to&.name
-        td = money_transfer.amount
+        td.td_right = money_transfer.amount.to_sum
         td = money_transfer.user&.name
         td = money_transfer.comment
         = tool_icons(money_transfer, {icons: 'edit'})
