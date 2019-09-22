@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong Date:
+  = @expense.date
+p
+  strong Amount:
+  = @expense.amount
+p
+  strong Safe:
+  = @expense.safe
+p
+  strong Expense type:
+  = @expense.expense_type
+p
+  strong Department:
+  = @expense.department
+p
+  strong Comment:
+  = @expense.comment
+
+=> link_to 'Edit', edit_expense_path(@expense)
+'|
+=< link_to 'Back', expenses_path

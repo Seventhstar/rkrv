@@ -1,23 +1,20 @@
-# require 'carrierwave/orm/activerecord'
-
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-#  acts_as_avatarable
-  # mount_uploader :avatar, AvatarUploader
-
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
-  before_create :create_activation_digest
+  before_create :create_token
+
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
+
   has_secure_password
+
+  belongs_to :safe, optional: true
   validates :password, length: { minimum: 6 }, allow_blank: true
 
-  ROLES = [:admin, :superadmin, :designer, :manager].freeze
+  ROLES = [:admin, :superadmin, :designer, :manager].freeze 
 
   def self.find_version_author(version)
     find(version.terminator) if version.terminator  
@@ -30,15 +27,17 @@ class User < ActiveRecord::Base
     BCrypt::Password.create(string, cost: cost)
   end
 
+  def name
+    self.username
+  end
+
   # Returns a random token.
   def User.new_token
     SecureRandom.urlsafe_base64
   end
 
   def avatar_for
-    
     self.avatar.try(:url).nil? ? '/assets/unknown.png' : self.avatar.url
-    
   end
 
   # Remembers a user in the database for use in persistent sessions.
@@ -121,6 +120,9 @@ class User < ActiveRecord::Base
     [user&.valid_password?(password), user]
   end
 
+  def update_token
+    self.token  = User.new_token
+  end
 
   private
     # Converts email to all lower-case.
@@ -129,9 +131,9 @@ class User < ActiveRecord::Base
     end
 
     # Creates and assigns the activation token and digest.
-    def create_activation_digest
-      self.activation_token  = User.new_token
-      self.activation_digest = User.digest(activation_token)
+    def create_token
+      self.token  = User.new_token
+#      self.activation_digest = User.digest(activation_token)
       # self.activation_digest = User.digest(activation_token)
     end
 

@@ -7,11 +7,23 @@
 .flash_error,.flash_alert, .flash_danger,.alert-danger, 
 #error_explanation { color: #fff;  background-color: #ef4646; border-color: #ea7171; }
 
-.has-note { 
+// .has-note { 
   // position: fixed; transform:  translateX(110%);
-  right: 3px; top: 130px; z-index: 1050; width: 100%; height: auto;width: 25em; }
+  // right: 3px; top: 130px; z-index: 1050; width: 100%; height: auto;width: 25em; }
+.has-note { position: fixed; right: 3px; top: 130px; z-index: 1050; width: 100%; height: auto;width: 25em; transform:  translateX(110%);}
+
 .alert.out{transform:translateX(110%);transition:all 0.8s ease-in-out;}
 .alert.in{ transform: translateX(-110%); transition:all 0.4s ease-in-out}
-.alert .close {position: relative;top:-5px; right: 0; opacity:.2;text-decoration: none !important;font-size: 25px !important;}
+
+// .alert .close {position: relative;top:-5px; right: 0; opacity:.2;text-decoration: none !important;font-size: 25px !important;}
+.alert .close {
+  position: fixed;
+    top: 6px;
+    right: 6px;
+    opacity: .2;
+    text-decoration: none !important;
+    font-size: 20px !important;
+}
+
 .flash_error  .close{ color: #fff; opacity: 0.6;}
 .close:focus, .close:hover { text-decoration: none; cursor: pointer; opacity: 1; }

@@ -15,6 +15,8 @@ class MoneyTransfersController < ApplicationController
   def new
     @money_transfer = MoneyTransfer.new
     @money_transfer.date = Date.today
+    @money_transfer.money_transfer_type = MoneyTransferType.find(params[:type]) 
+    @money_transfer.user = current_user
     respond_with(@money_transfer)
   end
 

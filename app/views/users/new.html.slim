@@ -1,0 +1,17 @@
+= form_for @user, method: :post do |f| 
+  h2 Регистрация
+  .grid_middle_label_name
+    label Логин
+    = f.text_field :username
+   
+    label e-mail
+    = f.text_field :email
+   
+    label Пароль
+    = f.text_field :password
+   
+    label Подтверждение
+    = f.text_field :password_confirmation
+   
+   
+    = submit_tag 'Регистрация', class: 'btn btn-default'

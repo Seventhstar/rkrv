@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :email, :password, :username, :approved, :admin,
+  permit_params :email, :password, :safe_id, :username, :approved, :admin,
                 :password_confirmation, :reset_password_token, 
                 :reset_password_sent_at, :remember_created_at
 
@@ -16,5 +16,19 @@ ActiveAdmin.register User do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+    form do |f|
+    f.inputs do
+      f.input :username
+      f.input :email
+      f.input :password
+      f.input :approved
+      f.input :admin
+      f.input :code1c
+      # f.input :password_confirmation
+       f.input :safe_id, label: 'Сейф', as: :select, collection: Safe.all
+    end
+    f.actions
+  end
+
+
 end

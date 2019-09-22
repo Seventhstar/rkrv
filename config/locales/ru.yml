@@ -185,6 +185,15 @@ ru:
         date: Дата
         comment: Комментарий
         user: Ответственный
+      expense:
+        expense_type: Вид расхода
+        department: Подразделение
+        amount: 'Сумма'
+        safe: 'Cейф/касса'
+        date: Дата
+        comment: Комментарий
+        user: Ответственный
+
       staff:
         name: ФИО
         phone: Телефон

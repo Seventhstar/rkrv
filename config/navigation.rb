@@ -58,7 +58,8 @@ SimpleNavigation::Configuration.run do |navigation|
     #
     primary.item :products, 'Продукты', products_path
     primary.item :product_leftovers, 'Остатки', product_leftovers_path
-    primary.item :money_transfers, 'Деньги', money_transfers_path
+    primary.item :money_transfers, 'Перемещения ДС', money_transfers_path
+    primary.item :expenses, 'Расходы', expenses_path
     primary.item :staffs, 'Персонал', staffs_path
 
     if current_user.admin? 

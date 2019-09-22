@@ -30,11 +30,14 @@ class UsersController < ApplicationController
   # GET /users/new
   def create
     @user = User.new(user_params)
+    puts "user #{@user}"
     if @user.save
       @user.send_activation_email
       #flash[:info] = "На Ваш почтовый ящик отправлено письмо со ссылки на активацию аккаунта."
       redirect_to root_path
     else
+      # puts "user: #{@user.errors.full_messages}"
+      flash[:error] = @user.errors.full_messages
       render 'new'
     end
   end
@@ -44,6 +47,7 @@ class UsersController < ApplicationController
   end
   
   def update
+    @user.create_reset_digest
     if @user.update_attributes(user_params)
       flash[:success] = "Профиль обновлен"
 
@@ -75,7 +79,7 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def user_params
       params.require(:user).permit(:username, :date_birth, :email, :password, :telegram,
-                                   :password_confirmation, :avatar)
+                                   :password_confirmation, :avatar, :safe_id)
     end
     
     # Before filters

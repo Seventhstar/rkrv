@@ -16,3 +16,8 @@
 
 #header ul.tabs li:first-child {margin-left: 10px}
 .td_right {text-align: right; padding-right: 10px;}
+
+.auth_form {width: 450px; margin: 180px auto; border-radius: 5px;}
+#new_user {width: 600px; margin: 180px auto; border-radius: 5px;}
+.auth_form .txt {width: 93%}
+a.register_link {float: right;}

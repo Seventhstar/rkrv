@@ -1,0 +1,32 @@
+.vue_app
+  = form_for @expense do |f|
+    .box_wrap.box_wrap_1
+      .panel-left
+        .grid_middle_label_name
+          = f.label :date
+          v-date name="date" 
+
+          = f.label :expense_type
+          v-chosen name="expense_type" placeholder="Тип расхода..." :input="true"
+
+          = f.label :amount
+          = f.number_field :amount
+
+          = f.label :safe
+          v-chosen name="safe" placeholder="Тип расхода..." :input="true"
+  
+          = f.label :department
+          v-chosen name="department" placeholder="Тип расхода..." :input="true"
+    
+          = f.label :comment
+          = f.text_field :comment
+
+          = f.label :user
+          v-chosen name="user" placeholder="Ответственный..." :input="true"
+
+          div
+          .actions 
+            = f.submit
+
+
+= render 'form_vue'

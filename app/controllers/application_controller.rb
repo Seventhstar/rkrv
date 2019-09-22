@@ -4,8 +4,14 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html, :json
   include SessionsHelper
+
+  before_action :set_paper_trail_whodunnit
   # protect_from_forgery with: :null_session
   # before_action :configure_permitted_parameters, if: :devise_controller?
+  def authenticate_admin_user!
+
+    redirect_to login_path unless current_user && current_user.admin == true
+  end
 
   protected
 
@@ -21,6 +27,8 @@ class ApplicationController < ActionController::Base
   #     # u.permit(:username, :password, :remember_me)
   #   # end
   # end
+
+
 
   # def authenticate_user_from_token!
   #   email = params[:email].presence

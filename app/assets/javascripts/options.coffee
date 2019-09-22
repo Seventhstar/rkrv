@@ -70,6 +70,9 @@
 
 
 $(document).ready -> 
+  $(document).on 'click', '.close', ->
+    $(this).closest('.alert').removeClass("in").addClass('out');
+
   $(document).on 'dblclick', '.tleads td', ->
     href = $(this).siblings('td.edit_delete').children('a.icon_edit').attr('href')
     if href!=undefined

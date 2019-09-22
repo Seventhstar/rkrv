@@ -202,11 +202,15 @@ module ApplicationHelper
 
   def v_value(obj, name, attr_name = nil, default = nil, safe = false)
     attr_name ||= "name"
-    if !obj.nil? && obj.id? 
+    # puts "attr_name #{name} - #{attr_name}"
+    if !obj.nil? #&& obj.id? 
       if !obj["#{name}_id"].nil? && obj["#{name}_id"]>0
         val = obj["#{name}_id"]
         label = obj.try("#{name}_#{attr_name}")
         label = obj&.try(name)&.try(attr_name) if label.nil?
+          # puts "label #{label} #{label.nil?}" 
+          # wejh
+        # end
       end
     elsif default.present?
         val = default.id
@@ -249,7 +253,9 @@ module ApplicationHelper
     if data[:list_values].present? 
       data[:list_values].split(' ').each do |li| 
         v = v_value(nil, nil, nil, eval("@#{li}"))        
+        puts "li #{li} - v #{v}"
         v = v_value(obj, li) if !v.present?
+        puts "li #{li} - v #{v} - #{obj[li]} : #{obj}"
         data[li] = v
       end
       data.delete(:list_values)
@@ -266,6 +272,10 @@ module ApplicationHelper
         end
         if l.index(':').nil?
           collection = eval("@#{l}")
+          if collection.nil? && !l.classify.constantize.nil? && l.classify.constantize.column_names.include?('name')
+            collection = l.classify.constantize.order(:name)
+          end
+          # puts "l #{l}: #{collection.length}" if collection.present?
         else
           la = l.split(':')
           if la[1].include?('raw')
@@ -280,7 +290,12 @@ module ApplicationHelper
             data[l] = collection 
           else
             # puts "1. data[:lists] #{data[:lists]}, l: #{l}", "collection: #{collection} #{collection.length}"
-            data[l] = select_src(collection, "name", false, fields) 
+            col = nil
+            if l.classify.try('constantise').present?
+              col = l.classify.constantize.column_names.map{|m| m if m.include?('name')}.compact
+            end
+            attr_name = (col && col.length) ? col[0] : 'name' 
+            data[l] = select_src(collection, attr_name, false, fields) 
             # puts "2. l #{l} collection: #{collection}", "data[l] #{data[l]}"
           end
         else
@@ -304,11 +319,9 @@ module ApplicationHelper
       # puts "collection2: #{collection}"
     else
       fields = fields_str.split(',')
-      collection = collection.collect{|u| 
+      collection = collection.collect{ |u| 
         c = {label: u.try(attr_name), value: u.id}
-        fields.each {
-          |f| c[f] = u.try(f)
-        }
+        fields.each {|f| c[f] = u.try(f)}
         c
       }
     end

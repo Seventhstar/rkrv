@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_171053) do
+ActiveRecord::Schema.define(version: 2019_09_21_050234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -49,6 +49,28 @@ ActiveRecord::Schema.define(version: 2019_08_28_171053) do
     t.string "code1c"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "expense_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.date "date"
+    t.integer "amount"
+    t.bigint "safe_id"
+    t.bigint "expense_type_id"
+    t.bigint "department_id"
+    t.string "comment"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_expenses_on_department_id"
+    t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id"
+    t.index ["safe_id"], name: "index_expenses_on_safe_id"
+    t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
   create_table "money_transfer_types", force: :cascade do |t|
@@ -148,15 +170,23 @@ ActiveRecord::Schema.define(version: 2019_08_28_171053) do
     t.string "token"
     t.string "password_digest"
     t.string "remember_digest"
+    t.bigint "safe_id"
+    t.string "code1c"
     t.index ["approved"], name: "index_users_on_approved"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["safe_id"], name: "index_users_on_safe_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "expenses", "departments"
+  add_foreign_key "expenses", "expense_types"
+  add_foreign_key "expenses", "saves"
+  add_foreign_key "expenses", "users"
   add_foreign_key "money_transfers", "money_transfer_types"
   add_foreign_key "money_transfers", "users"
   add_foreign_key "product_leftovers", "stores"
   add_foreign_key "saves", "organisations"
   add_foreign_key "staffs", "departments"
+  add_foreign_key "users", "saves"
 end
