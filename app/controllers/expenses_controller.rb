@@ -4,7 +4,11 @@ class ExpensesController < ApplicationController
   respond_to :html
 
   def index
-    @expenses = Expense.all
+    if params[:date_start].present? && params[:date_end].present?
+      @expenses = Expense.where('date >= ? and date <= ?', params[:date_start], params[:date_end])
+    else
+      @expenses = Expense.all
+    end
     respond_with(@expenses)
   end
 

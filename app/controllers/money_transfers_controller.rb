@@ -4,7 +4,11 @@ class MoneyTransfersController < ApplicationController
   respond_to :html
 
   def index
-    @money_transfers = MoneyTransfer.all
+    if params[:date_start].present? && params[:date_end].present?
+      @money_transfers = MoneyTransfer.where('date >= ? and date <= ?', params[:date_start], params[:date_end])
+    else
+      @money_transfers = MoneyTransfer.all
+    end
     respond_with(@money_transfers)
   end
 
