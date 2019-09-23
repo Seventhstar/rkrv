@@ -5,7 +5,9 @@ class MoneyTransfersController < ApplicationController
 
   def index
     if params[:date_start].present? && params[:date_end].present?
-      @money_transfers = MoneyTransfer.where('date >= ? and date <= ?', params[:date_start], params[:date_end])
+      dt_start = Date.parse(params[:date_start])
+      dt_end   = Date.parse(params[:date_end])
+      @money_transfers = MoneyTransfer.where('date >= ? and date <= ?', dt_start, dt_end)
     else
       @money_transfers = MoneyTransfer.all
     end

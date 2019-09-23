@@ -5,7 +5,9 @@ class ExpensesController < ApplicationController
 
   def index
     if params[:date_start].present? && params[:date_end].present?
-      @expenses = Expense.where('date >= ? and date <= ?', params[:date_start], params[:date_end])
+      dt_start = Date.parse(params[:date_start])
+      dt_end   = Date.parse(params[:date_end])
+      @expenses = Expense.where('date >= ? and date <= ?', dt_start, dt_end)
     else
       @expenses = Expense.all
     end

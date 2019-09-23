@@ -14,6 +14,10 @@ class Expense < ApplicationRecord
     self.user&.code1c
   end
 
+  def expense_type_code1c
+    self.expense_type&.code1c
+  end 
+
   def department_code1c
     self.department&.code1c
   end
