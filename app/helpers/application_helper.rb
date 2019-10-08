@@ -253,9 +253,9 @@ module ApplicationHelper
     if data[:list_values].present? 
       data[:list_values].split(' ').each do |li| 
         v = v_value(nil, nil, nil, eval("@#{li}"))        
-        puts "li #{li} - v #{v}"
+        # puts "li #{li} - v #{v}"
         v = v_value(obj, li) if !v.present?
-        puts "li #{li} - v #{v} - #{obj[li]} : #{obj}"
+        # puts "li #{li} - v #{v} - #{obj[li]} : #{obj}"
         data[li] = v
       end
       data.delete(:list_values)

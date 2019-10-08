@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :money_requests
+  resources :salary_payments
   resources :expenses
   ActiveAdmin.routes(self)
   resources :staffs

@@ -1,0 +1,21 @@
+= form_for @salary_payment do |f|
+  - if @salary_payment.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@salary_payment.errors.count, "error")} prohibited this salary_payment from being saved:"
+      ul
+        - @salary_payment.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :date
+    = f.date_select :date
+  .field
+    = f.label :depertment
+    = f.text_field :depertment
+  .field
+    = f.label :user
+    = f.text_field :user
+  .field
+    = f.label :amount
+    = f.number_field :amount
+  .actions = f.submit

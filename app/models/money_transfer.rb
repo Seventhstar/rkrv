@@ -11,7 +11,7 @@ class MoneyTransfer < ApplicationRecord
   end
 
   def safe_to_1c
-    safe_from&.code1c
+    safe_to&.code1c
   end
 
   def owner_code1c

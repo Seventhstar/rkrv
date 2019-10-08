@@ -1,0 +1,37 @@
+#title_bar.title_bar
+  #titlebar_left
+    h1 Заявки на расход денежных средств
+  #titlebar_right
+  .action_items
+    span.action_item
+      = link_to 'Новая заявка', new_money_request_path
+
+table#index_table_admin_users.index_table.index border="0" cellpadding="0" cellspacing="0" paginator="true"
+  thead
+    tr
+      th Дата с
+      th Дата по
+      th Ответственный
+      th Отдел
+      th Наличные
+      th Р/счет
+      th
+      th
+      th
+
+  tbody
+    - @money_requests.each do |money_request|
+      tr
+        td = money_request.date_start
+        td = money_request.date_end
+        td = money_request.user
+        td = money_request.department
+        td = money_request.amount_cash
+        td = money_request.amount_bank
+        td = link_to 'Show', money_request
+        td = link_to 'Edit', edit_money_request_path(money_request)
+        td = link_to 'Destroy', money_request, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Money request', new_money_request_path

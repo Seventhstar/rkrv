@@ -178,6 +178,14 @@ ru:
         other: "%{model}: сохранение не удалось из-за %{count} ошибки"
   helpers:
     label:
+      money_request:
+        date_start: Дата начала
+        date_end: Дата окончания
+        user: Ответственный
+        department: Подразделение
+        amount_cash: "Итого наличные"
+        amount_bank: "Итого безнал"
+
       money_transfer:
         amount: 'Сумма'
         safe_from: 'Из сейфа/кассы'

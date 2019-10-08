@@ -1,2 +1,5 @@
 .grid_label_name  {display: grid; grid-template-columns: 150px 1fr; grid-gap: 10px; }
 .grid_middle_label_name {display: grid; grid-template-columns: 170px 1fr; grid-gap: 10px; }
+
+.request_rows {display: grid; grid-template-columns: 122px 150px 50px 1fr 170px 100px; grid-gap: 10px; }
+.box_wrap_lr {display: grid; grid-template-columns: 561px 1fr; grid-gap: 20px;}

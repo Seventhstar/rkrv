@@ -47,7 +47,7 @@ var e_val = function(id) {
   return v.value;
 }
 
-var format_date = function(date) {
+function format_date(date) {
   if (v_nil(date)) date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
   if (date.includes('-')) return date.split('-').reverse().join('.');
   return date;

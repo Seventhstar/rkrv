@@ -1,0 +1,31 @@
+.vue_app
+  = form_for @money_request do |f|
+    .box_wrap.box_wrap_lr
+      .panel-left
+        .grid_middle_label_name
+          = f.label :date_start
+          div
+            v-date name="date_start" class='left mr10' 
+            = f.label :date_end, class: 'left mr10'
+            v-date name="date_end" class='left'
+
+          = f.label :user
+          v-chosen name="user" placeholder="Ответственный..." :input="true"
+
+          = f.label :department
+          v-chosen name="department" placeholder="Подразделение..." :input="true"
+
+          = f.label :amount_cash
+          = f.number_field :amount_cash
+
+          = f.label :amount_bank
+          = f.number_field :amount_bank
+          
+          div
+          .actions = f.submit
+
+      .panel-right
+        = render 'rows'
+
+
+== render 'form_vue'

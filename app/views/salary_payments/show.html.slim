@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Date:
+  = @salary_payment.date
+p
+  strong Depertment:
+  = @salary_payment.depertment
+p
+  strong User:
+  = @salary_payment.user
+p
+  strong Amount:
+  = @salary_payment.amount
+
+=> link_to 'Edit', edit_salary_payment_path(@salary_payment)
+'|
+=< link_to 'Back', salary_payments_path

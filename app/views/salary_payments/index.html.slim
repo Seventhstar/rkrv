@@ -1,0 +1,27 @@
+h1 Listing salary_payments
+
+table
+  thead
+    tr
+      th Date
+      th Depertment
+      th User
+      th Amount
+      th
+      th
+      th
+
+  tbody
+    - @salary_payments.each do |salary_payment|
+      tr
+        td = salary_payment.date
+        td = salary_payment.depertment
+        td = salary_payment.user
+        td = salary_payment.amount
+        td = link_to 'Show', salary_payment
+        td = link_to 'Edit', edit_salary_payment_path(salary_payment)
+        td = link_to 'Destroy', salary_payment, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Salary payment', new_salary_payment_path

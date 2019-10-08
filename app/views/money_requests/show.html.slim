@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong Date start:
+  = @money_request.date_start
+p
+  strong Date end:
+  = @money_request.date_end
+p
+  strong User:
+  = @money_request.user
+p
+  strong Department:
+  = @money_request.department
+p
+  strong Amount cash:
+  = @money_request.amount_cash
+p
+  strong Amount bank:
+  = @money_request.amount_bank
+
+=> link_to 'Edit', edit_money_request_path(@money_request)
+'|
+=< link_to 'Back', money_requests_path

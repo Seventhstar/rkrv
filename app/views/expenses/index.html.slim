@@ -23,7 +23,7 @@ table#index_table_admin_users.index_table.index border="0" cellpadding="0" cells
       tr
         td = format_date(expense.date)
         td = expense.safe&.name
-        td.td_right = expense.amount.to_sum 
+        td.td_right = expense.amount&.to_sum 
         td = expense.expense_type&.name
         td = expense.department&.name
         td = expense.user&.name

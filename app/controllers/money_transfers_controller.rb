@@ -1,7 +1,8 @@
 class MoneyTransfersController < ApplicationController
   before_action :set_money_transfer, only: [:show, :edit, :update, :destroy]
   before_action :def_values, only: [:new, :create, :edit, :update]
-  respond_to :html
+  # respond_to :html
+  respond_to :html, :json, :js
 
   def index
     if params[:date_start].present? && params[:date_end].present?

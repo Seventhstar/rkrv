@@ -61,6 +61,7 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :money_transfers, 'Перемещения ДС', money_transfers_path
     primary.item :expenses, 'Расходы', expenses_path
     primary.item :staffs, 'Персонал', staffs_path
+    primary.item :money_requests, 'Заявки ДС', money_requests_path
 
     if current_user.admin? 
     #   import_catalog

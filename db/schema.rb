@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_112117) do
+ActiveRecord::Schema.define(version: 2019_10_02_071206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -74,6 +74,30 @@ ActiveRecord::Schema.define(version: 2019_09_23_112117) do
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
+  create_table "money_request_rows", force: :cascade do |t|
+    t.date "date"
+    t.bigint "department_id"
+    t.boolean "cash"
+    t.string "purpose"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_money_request_rows_on_department_id"
+  end
+
+  create_table "money_requests", force: :cascade do |t|
+    t.date "date_start"
+    t.date "date_end"
+    t.bigint "user_id"
+    t.bigint "department_id"
+    t.integer "amount_cash"
+    t.integer "amount_bank"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_money_requests_on_department_id"
+    t.index ["user_id"], name: "index_money_requests_on_user_id"
+  end
+
   create_table "money_transfer_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -119,6 +143,17 @@ ActiveRecord::Schema.define(version: 2019_09_23_112117) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "salary_payments", force: :cascade do |t|
+    t.date "date"
+    t.bigint "department_id"
+    t.bigint "user_id"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_salary_payments_on_department_id"
+    t.index ["user_id"], name: "index_salary_payments_on_user_id"
   end
 
   create_table "saves", force: :cascade do |t|
@@ -195,9 +230,14 @@ ActiveRecord::Schema.define(version: 2019_09_23_112117) do
   add_foreign_key "expenses", "expense_types"
   add_foreign_key "expenses", "saves"
   add_foreign_key "expenses", "users"
+  add_foreign_key "money_request_rows", "departments"
+  add_foreign_key "money_requests", "departments"
+  add_foreign_key "money_requests", "users"
   add_foreign_key "money_transfers", "money_transfer_types"
   add_foreign_key "money_transfers", "users"
   add_foreign_key "product_leftovers", "stores"
+  add_foreign_key "salary_payments", "departments"
+  add_foreign_key "salary_payments", "users"
   add_foreign_key "saves", "organisations"
   add_foreign_key "staffs", "departments"
   add_foreign_key "users", "saves"

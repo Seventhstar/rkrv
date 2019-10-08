@@ -38,7 +38,7 @@
 }
 
 .box_wrap label {margin-top: 6px; text-align: right; font-weight: bold; font-size: 12px;}
-.box_wrap label::after {content: ":";}
+.box_wrap label:not(.checkcontainer)::after {content: ":";}
 
 .vdp-datepicker input[type=text]{width: 96px; border: none; background-color: transparent;} 
 .vdp-datepicker input[type=text]:focus {box-shadow: none; border: none;}
