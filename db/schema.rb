@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_12_104300) do
+ActiveRecord::Schema.define(version: 2019_10_13_175329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -44,10 +44,20 @@ ActiveRecord::Schema.define(version: 2019_10_12_104300) do
     t.index ["username"], name: "index_admin_users_on_username", unique: true
   end
 
+  create_table "attachments", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "owner_id"
+    t.string "owner_type"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_attachments_on_owner_id"
+  end
+
   create_table "conference_records", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.integer "owner_id"
+    t.integer "folder_id"
     t.bigint "user_id"
     t.bigint "department_id"
     t.boolean "admin"

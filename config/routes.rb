@@ -54,5 +54,9 @@ Rails.application.routes.draw do
     resources :conference_records
   end
 
+  resources :files
+  get  '/download/:id'  => 'files#download'
+
+
   root to: "products#index"
 end

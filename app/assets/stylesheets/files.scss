@@ -1,0 +1,53 @@
+@import "common.scss";
+.attach_list{float: left;}
+.add_progress{height: 46px; display: grid; grid-template-columns: auto 1fr; }
+
+.attach_list .btn_add{ background-color: white; line-height: 37px; color: $main-orange;  }
+.attach_list .btn_add:hover { border-color: $main-orange; color: $main-orange;}
+.attach_list .pict .icon_file{margin-top: -2px;}
+
+
+.files_list_a {}
+.files_list li {list-style: none;}
+.files_list span.head{padding: 2px 6px 6px 10px; display: block;}
+.files_list li.audio{ margin-bottom: 20px; border: 1px solid $border-color;  padding: 8px 4px;}
+.files_list_a .item{border-top:1px solid $border-color; padding: 7px;  position:relative; }
+.files_list_a .item.odd {background: #fafafa;}
+.files_list_a .item:first-child {margin-top: 0; border: 0; }
+
+.icon_img, .icon_doc, .icon_pdf, .icon_word, .icon_xls {display: inline-block; background: asset-url('image.png') no-repeat; 
+                      vertical-align: middle; position: relative; cursor: pointer; padding-left:20px;}
+.icon_doc {background: asset-url('doc.png') no-repeat;}
+.icon_pdf {background: asset-url('pdf16.png') no-repeat;}
+.icon_word {background: asset-url('icon-word.png') no-repeat;}
+.icon_xls {background: asset-url('icon-xls.png') no-repeat;}
+.locked {background-color: $secret-red;}
+.locked:hover td {background-color: #fbb !important;}
+
+// .files_list_a .item .fname {width: 93%;}
+.files_list_a .item {display: grid; grid-template-columns: 1fr 64px}
+// li.item  .files_list_a {display: grid; grid-template-columns: 1fr 64px}
+li.audio.files_list_a {display: grid; grid-template-columns: 1fr 24px}
+.files_list_a.audio .tools {display: grid; grid-template-rows: 1fr 1fr 1fr}
+
+// .files_list_a .item .fname.audio {width: 80%;}
+.audio span { color: gray;} //padding: 5px;
+.show_audio .fname.audio span{float: right;padding: 7px;}
+.show_audio { height: 46px; margin-top: 10px;}
+
+.files_list_a .item:after {content: ' '; clear:both; display: block; width: 0; height: 0; overflow: hidden; font-size: 0;}
+.files_list_a .item a {text-decoration: none; }
+.files_list_a .item a:hover {text-decoration: underline; color: #009DDD;}
+.files_list_a .item .tools{position:absolute; top: 10px; right:10px; font-size: 0;}
+.files_list_a .item .tools .icon {margin:0 0 0 10px;}
+
+.files_box {}
+.files_box .file_inp{margin:0 0 8px 0;}
+.files_box .files_list_a{}
+
+.file_inp {overflow:hidden; position:relative;}
+.file_inp .btn_add {}
+.btn_add .pict{display: inline-block; height: 14px; margin:0 11px 0 0;}
+.btn_add .pict .icon{}
+.file_inp input{position:absolute; top: 0; left: -1000px;}
+

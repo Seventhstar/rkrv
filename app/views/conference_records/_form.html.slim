@@ -1,8 +1,7 @@
-.vue_app
-  = form_for @conference_record do |f|
-    .box_wrap.box_wrap_lr
-      .panel-left
-        .grid_middle_label_name
+.box_wrap.box_wrap_lr
+  .panel-left.vue_app
+    = form_for @conference_record do |f|
+      .grid_middle_label_name
 
           = f.label :name
           = f.text_field :name
@@ -10,8 +9,8 @@
           = f.label :description
           = f.text_field :description
 
-          = f.label :owner
-          v-chosen name="owner" placeholder="Принадлежит..." :input="true"
+          = f.label :folder
+          v-chosen name="folder" placeholder="Принадлежит..." :input="true"
 
           = f.label :user
           v-chosen name="user" placeholder="Ответственный..." :input="true"
@@ -30,4 +29,7 @@
       / = f.check_box :admin
       / = f.label :admin
 
-== render 'form_vue'
+  == render 'form_vue'
+  .panel-right
+    - if !@owner.nil? 
+      = render "shared/attach_vue"

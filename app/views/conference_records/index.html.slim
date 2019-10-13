@@ -22,6 +22,11 @@
             .folder-item item-id="<%= level2.id %>"
               .folder-icon
               = level2.name 
+            - level2.conferences.each do |level3|
+              .conference-folder.level3
+                .folder-item item-id="<%= level3.id %>"
+                  .folder-icon
+                  = level3.name 
 
   .panel-right
     table#index_table_admin_users.index_table.index border="0" cellpadding="0" cellspacing="0" paginator="true"

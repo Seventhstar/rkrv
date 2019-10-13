@@ -3,7 +3,7 @@ class CreateConferenceRecords < ActiveRecord::Migration[5.2]
     create_table :conference_records do |t|
       t.string :name
       t.string :description
-      t.integer :owner_id
+      t.integer :folder_id
       t.references :user, foreign_key: true
       t.references :department, foreign_key: true
       t.boolean :admin

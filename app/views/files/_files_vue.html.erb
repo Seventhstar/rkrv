@@ -1,0 +1,115 @@
+<% files ||= @owner.attachments %>
+<script>
+  let filesapp = new Vue({
+    el: '.filesapp',
+    data: {
+      model: '<%= @owner.class %>',
+      files: <%= data %>,
+      keyNames: [],
+      listNames: [],
+      docList: []
+    },
+
+    created() {
+      this.listNames = _.uniq(_.pluck(this.files, 'owner_type')); 
+      if (this.listNames.indexOf(this.model) == -1) {
+        this.listNames.push(this.model)
+      }
+
+      this.listNames.forEach( (n) => {
+        this[n] = this.files.filter(f => f.owner_type == n) 
+        this[n+'Grouped'] = _.groupBy(this[n], 'owner_name')
+      })
+
+      this.updateLists()
+    },
+
+    computed: {
+      docCount() {return this.docList.length;}
+    },
+
+    methods: {  
+      setData(name, data) {
+        if (!this.listNames.length) this.listNames = [name]
+        if (this[name] == undefined) this[name] = []
+
+        this[name].push(data);
+        this.updateLists()
+      },
+
+      deleteFile(name, id) {
+        this[name] = this[name].filter(el => el.id !== id);
+        this.updateLists();
+      },
+
+      updateLists() {
+        if (this.listNames.length) {
+          if (this.listNames[0] == 'ProjectGood' && this.model == 'ProjectGood'){
+            this.docList = this[this.listNames[0]]
+          } else {
+
+            idx = this.listNames.indexOf(this.model)
+            lst = this.listNames[idx]
+            if (lst != undefined){
+              this.docList = this[lst].filter( f => 
+                f.name.split('.').pop() != 'mp3' && f.name.split('.').pop() != 'ogg'
+              )
+            }
+          }
+
+          // console.log('here updateLists')
+          this.ProjectGoodGrouped = _.groupBy(this.ProjectGood, 'owner_name')
+          this.keyNames = _.keys(this.ProjectGoodGrouped)
+        }
+      },
+
+      listCount(id) {
+        return this.docCount
+      },
+
+      getList(list, group) {
+        if (group!= null) {
+          return this[list+'Grouped'][group];
+        }
+        return list;
+      },
+
+      getKeys(name) {
+        // console.log('keys', keys, name, 'Grouped');
+        return keys
+      },
+
+      liClass(locked, audio = false) {
+        return "item" + (locked ? ' locked' : '')
+      },
+
+      iconClass(locked) {
+        return "icon icon_lock" + (locked ? ' locked' : '')
+      },
+
+      isModal(name){
+        let fileExt = name.split('.').pop()
+        return fileExt != 'pdf'
+      },
+
+      iconType(name) {
+        let fileExt = name.split('.').pop()
+        switch(fileExt){
+          case 'pdf': return "icon_pdf"
+          
+          case 'png':
+          case 'gif':
+          case 'jpg': return 'icon_img'
+
+          case 'doc':
+          case 'docx': return 'icon_word'
+          
+          case 'xls':
+          case 'xlsx': return 'icon_xls'
+        }
+        return "icon_img"
+      }
+    }
+  });
+
+</script>
