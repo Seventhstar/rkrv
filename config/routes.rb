@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'conference/new'
+  get 'conference/edit'
   resources :money_requests
   resources :salary_payments
   resources :expenses
@@ -46,6 +48,11 @@ Rails.application.routes.draw do
 
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+
+  resources :conferences
+  resources :conference_records do
+    resources :conference_records
+  end
 
   root to: "products#index"
 end

@@ -1,0 +1,30 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @conference_record.name
+p
+  strong Description:
+  = @conference_record.description
+p
+  strong Parent:
+  = @conference_record.parent_id
+p
+  strong User:
+  = @conference_record.user
+p
+  strong Department:
+  = @conference_record.department
+p
+  strong Admin:
+  = @conference_record.admin
+p
+  strong Date create:
+  = @conference_record.date_create
+p
+  strong Date update:
+  = @conference_record.date_update
+
+=> link_to 'Edit', edit_conference_record_path(@conference_record)
+'|
+=< link_to 'Back', conference_records_path

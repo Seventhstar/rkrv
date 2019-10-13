@@ -1,0 +1,15 @@
+.vue_app
+  = form_for @conference do |f|
+    .box_wrap.box_wrap_lr
+      .panel-left
+        .grid_middle_label_name
+          = f.label :name
+          = f.text_field :name
+
+          = f.label :parent
+          v-chosen name="parent" placeholder="Входит в..." :input="true"
+          
+          div
+          .actions = f.submit
+
+== render 'form_vue'

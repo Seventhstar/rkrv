@@ -178,6 +178,12 @@ ru:
         other: "%{model}: сохранение не удалось из-за %{count} ошибки"
   helpers:
     label:
+      conference_record: 
+        name: Название
+        description: Описание
+        user: Ответственный
+        owner: Принадлежит
+        department: Подразделение
       money_request:
         date_start: Дата начала
         date_end: Дата окончания

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_02_071206) do
+ActiveRecord::Schema.define(version: 2019_10_12_104300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -42,6 +42,28 @@ ActiveRecord::Schema.define(version: 2019_10_02_071206) do
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_admin_users_on_username", unique: true
+  end
+
+  create_table "conference_records", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "owner_id"
+    t.bigint "user_id"
+    t.bigint "department_id"
+    t.boolean "admin"
+    t.date "date_create"
+    t.date "date_update"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_conference_records_on_department_id"
+    t.index ["user_id"], name: "index_conference_records_on_user_id"
+  end
+
+  create_table "conferences", force: :cascade do |t|
+    t.string "name"
+    t.integer "parent_id", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -226,6 +248,8 @@ ActiveRecord::Schema.define(version: 2019_10_02_071206) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "conference_records", "departments"
+  add_foreign_key "conference_records", "users"
   add_foreign_key "expenses", "departments"
   add_foreign_key "expenses", "expense_types"
   add_foreign_key "expenses", "saves"

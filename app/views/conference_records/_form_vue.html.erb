@@ -1,0 +1,85 @@
+<script>
+  Vue.component('v-select', VueSelect.VueSelect)
+  Vue.component('datepicker', vuejsDatepicker )
+
+  let app = new Vue({
+    el: '.vue_app',
+    data: <%= fill_vue_data(@conference_record, {
+      model: 'conference_record',
+      noteValid: '',
+      formValid: false,
+      rowValid: false,
+      filteredProjects: [],
+      money_request_rows: [],
+      texts: 'comment date_create date_update',
+      list_values: 'user owner department',
+      lists: "users owners departments"
+    })
+    %>,
+      // user:   v_value(@money_request, "user", nil, current_user)
+    
+    updated(){
+      this.onInput();
+    },
+
+    mounted(){
+      this.$root.$on('onInput', this.onInput);
+    },
+
+    created(){
+    },
+
+    watch: {
+    },
+
+    methods: {
+      onInput(e) {
+
+      },
+
+      format_date(date){
+        return format_date(date)
+      },
+
+      row_field(index, field) {
+        return "money_request[money_request_rows_attributes]["+index+"]["+field+']'
+      },
+
+
+      add_row(){
+        console.log('add_row')
+        if (this.new_purpose !== null){
+          this.money_request_rows.push(
+            { date: this.new_date, 
+            amount: this.new_amount, 
+            purpose: this.new_purpose, 
+                      _destroy: false})
+          this.new_expense_type = null
+          this.new_amount = 0
+          this.new_purpose = "" 
+          this.onInput();
+
+          this.calcTotal();
+        }
+      },
+
+      calcTotal(){
+        // let amount = 0
+        // this.expense_rows.filter(sh => !sh._destroy).forEach( r =>{
+        //   amount = amount + toInt(r.amount)
+        // })
+        // this.amount = amount
+      },
+
+      del_row(index){
+        this.money_request_rows[index]['_destroy'] = true
+        this.calcTotal();
+      },
+
+
+
+    }
+    
+  });
+
+</script>

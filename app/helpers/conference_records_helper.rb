@@ -1,0 +1,2 @@
+module ConferenceRecordsHelper
+end

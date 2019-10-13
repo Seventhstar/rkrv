@@ -1,0 +1,33 @@
+.vue_app
+  = form_for @conference_record do |f|
+    .box_wrap.box_wrap_lr
+      .panel-left
+        .grid_middle_label_name
+
+          = f.label :name
+          = f.text_field :name
+
+          = f.label :description
+          = f.text_field :description
+
+          = f.label :owner
+          v-chosen name="owner" placeholder="Принадлежит..." :input="true"
+
+          = f.label :user
+          v-chosen name="user" placeholder="Ответственный..." :input="true"
+
+          = f.label :department
+          v-chosen name="department" placeholder="Подразделение..." :input="true"
+    
+          = f.label :date_create
+          div
+            v-date name="date_create" class='left mr10' 
+            = f.label :date_update, class: 'left mr10'
+            v-date name="date_update" class='left'      
+  
+          div
+          .actions = f.submit
+      / = f.check_box :admin
+      / = f.label :admin
+
+== render 'form_vue'

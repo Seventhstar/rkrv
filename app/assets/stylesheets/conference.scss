@@ -1,0 +1,10 @@
+// Place all the styles related to the Conference controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.conferences-grid {display: grid; grid-template-columns: 250px 1fr;}
+.conferences-folders {margin-top: 24px;}
+.conference-folder .folder-item{height: 22px; font-size: 16px; cursor: pointer;}
+.level2 .folder-item {margin-left: 16px;}
+.folder-icon { width: 16px; height: 16px; display: block; float: left;
+              background: asset-url('folder.png') no-repeat; margin-right: 4px};

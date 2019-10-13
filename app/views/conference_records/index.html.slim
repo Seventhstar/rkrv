@@ -1,0 +1,45 @@
+#title_bar.title_bar
+  #titlebar_left
+    h1 Документооборот
+  #titlebar_right
+  .action_items
+    span.action_item
+      = link_to 'Новая папка', new_conference_path
+    span.action_item
+      = link_to 'Новый документ', new_conference_record_path
+
+
+.box_wrap.conferences-grid
+  .panel-left-mini
+    .conferences-folders
+    - @conferences.each do |root|
+      .conference-folder.level1
+        .folder-item item-id="<%= root.id %>"
+          .folder-icon
+          = root.name 
+        - root.conferences.each do |level2|
+          .conference-folder.level2
+            .folder-item item-id="<%= level2.id %>"
+              .folder-icon
+              = level2.name 
+
+  .panel-right
+    table#index_table_admin_users.index_table.index border="0" cellpadding="0" cellspacing="0" paginator="true"
+      thead
+        tr
+          th Имя
+          th Описание
+          th Ответственный
+          th Создано
+          th Обновлено
+          th
+
+      tbody
+        - @conference_records.each do |conference_record|
+          tr
+            td = conference_record.name
+            td = conference_record.description
+            td = conference_record.user&.name
+            td = format_date conference_record.date_create
+            td = format_date conference_record.date_update
+            = tool_icons(conference_record, {icons: 'edit'})
