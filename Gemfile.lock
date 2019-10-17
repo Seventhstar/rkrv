@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/Seventhstar/pdfjs_viewer-rails2.git
+  revision: 48743cd65c5770bfe0484c033c0431f4325ccc8b
+  specs:
+    pdfjs_viewer-rails (0.3.1.2)
+      json (> 1.8.4)
+      rails (> 4.2.0)
+      sass-rails (~> 5.0)
+
+GIT
   remote: https://github.com/Seventhstar/yaml_db2.git
   revision: 9d225777dedc89576bb633358e645b2bfbe84b48
   specs:
@@ -146,6 +155,7 @@ GEM
     jquery.fileupload-rails (1.11.0)
       jquery-ui-rails (~> 5.0)
       railties (>= 3.1)
+    json (2.2.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.1.1)
@@ -325,6 +335,7 @@ DEPENDENCIES
   jquery-rails
   jquery.fileupload-rails
   paper_trail
+  pdfjs_viewer-rails!
   pg
   puma (~> 3.11)
   rails (~> 5.2.2)

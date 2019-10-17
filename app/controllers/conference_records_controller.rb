@@ -5,11 +5,11 @@ class ConferenceRecordsController < ApplicationController
   include FileHelper
   include VueHelper
 
-  respond_to :html
+  respond_to :html, :js
 
   def index
     @conferences = Conference.where(parent_id: 0)
-    @conference_records = ConferenceRecord.all
+    @conference_records = ConferenceRecord.by_folder(params[:folder])
     respond_with(@conference_records)
   end
 
@@ -46,7 +46,7 @@ class ConferenceRecordsController < ApplicationController
       @users   = User.order(:username).map{|u| {name: u.username, id: u.id}}
       @folders = Conference.order(:name)
       @folder  = @conference_record&.folder
-      @files   = @conference_record.attachments.order(:created_at)
+      @files   = @conference_record&.attachments&.order(:created_at)
       @owner   = @conference_record
       # @departments = Department
     end

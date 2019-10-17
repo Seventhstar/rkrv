@@ -1,12 +1,17 @@
 <% files ||= @owner.attachments %>
+<% modal ||= false %>
+<% el_selector = modal ? '.filesapp_modal' : '.filesapp' %>
+
 <script>
-  let filesapp = new Vue({
-    el: '.filesapp',
+  vue_data = {
+    el: '<%= el_selector %>',
     data: {
       model: '<%= @owner.class %>',
+      tabs: [{value: 1, label: 'Документы'}, {value: 2, label: 'Аудио'}],
       files: <%= data %>,
       keyNames: [],
       listNames: [],
+      audioList: [],
       docList: []
     },
 
@@ -22,13 +27,28 @@
       })
 
       this.updateLists()
+      this.setActive(this.tabs[0])
     },
 
     computed: {
-      docCount() {return this.docList.length;}
+      currentTab: function () {
+        return this.tabs.reduce((accum, curr) => {return curr.active ? curr : accum}, {});
+      },      
+
+      docCount() {return this.docList.length;},
+      audioCount() {return this.audioList.length;}
+
     },
 
     methods: {  
+      tabClass(currentTab){
+        if (currentTab.active) return 'ui-tabs-active'
+        return ''
+      },
+      setActive(currentTab) {
+        this.tabs.forEach((el,ind) => {Vue.set(this.tabs[ind], 'active', el === currentTab)})
+      },
+
       setData(name, data) {
         if (!this.listNames.length) this.listNames = [name]
         if (this[name] == undefined) this[name] = []
@@ -54,6 +74,9 @@
               this.docList = this[lst].filter( f => 
                 f.name.split('.').pop() != 'mp3' && f.name.split('.').pop() != 'ogg'
               )
+              this.audioList = this[lst].filter( f => 
+                f.name.split('.').pop() == 'mp3' || f.name.split('.').pop() == 'ogg'
+              )
             }
           }
 
@@ -64,7 +87,8 @@
       },
 
       listCount(id) {
-        return this.docCount
+        if (id == 1) return this.docCount
+        return this.audioCount
       },
 
       getList(list, group) {
@@ -80,7 +104,7 @@
       },
 
       liClass(locked, audio = false) {
-        return "item" + (locked ? ' locked' : '')
+        return "item" + (locked ? ' locked' : '') + (audio ? ' audio files_list_a' : '')
       },
 
       iconClass(locked) {
@@ -110,6 +134,12 @@
         return "icon_img"
       }
     }
-  });
+  };
+
+  <% if modal %>
+    filesappModal = new Vue(vue_data);
+  <% else %>
+    filesapp = new Vue(vue_data);
+  <% end %>
 
 </script>

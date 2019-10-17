@@ -37,16 +37,19 @@ module FileHelper
     end
   end
 
-  def file_default_action(file, add_name=nil, decoration=true)    
+  def file_default_action(file, add_name = nil, decoration = true, only_icon = false)    
     file = Attachment.find(file) if file.class == Integer
 
     if file.nil? 
       return
     end
     filename = add_name.nil? ? file.name : [file.name,add_name].join(' ')
+    filename = only_icon ? '' : filename
     extension = file.name.split('.').last
 
     case extension
+    when 'pdf'
+      a = link_to filename, file.show_path, class: "icon_pdf", data: { modal: true }
     when 'jpg', 'png', 'gif'
       a = link_to filename, file.show_path, class: 'icon_img', data: { modal: true }
       if decoration

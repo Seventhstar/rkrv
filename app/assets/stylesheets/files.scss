@@ -18,7 +18,7 @@
 .icon_img, .icon_doc, .icon_pdf, .icon_word, .icon_xls {display: inline-block; background: asset-url('image.png') no-repeat; 
                       vertical-align: middle; position: relative; cursor: pointer; padding-left:20px;}
 .icon_doc {background: asset-url('doc.png') no-repeat;}
-.icon_pdf {background: asset-url('pdf16.png') no-repeat;}
+.icon_pdf {background: asset-url('pdf16.png') no-repeat; height: 16px;}
 .icon_word {background: asset-url('icon-word.png') no-repeat;}
 .icon_xls {background: asset-url('icon-xls.png') no-repeat;}
 .locked {background-color: $secret-red;}

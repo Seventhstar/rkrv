@@ -2,6 +2,9 @@ require "application_responder"
 
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
+  respond_to :html
+
+  self.responder = ApplicationResponder
   respond_to :html, :json
   include SessionsHelper
 
@@ -12,6 +15,13 @@ class ApplicationController < ActionController::Base
 
     redirect_to login_path unless current_user && current_user.admin == true
   end
+
+  def respond_modal_with(*args, &blk)
+    options = args.extract_options!
+    options[:responder] = ModalResponder
+    respond_with *args, options, &blk
+  end
+
 
   protected
 

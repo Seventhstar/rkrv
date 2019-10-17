@@ -1,0 +1,21 @@
+    table#index_table_conferences.index_table.index border="0" cellpadding="0" cellspacing="0" paginator="true"
+      thead
+        tr
+          th width="200px" Имя
+          th Описание
+          th width="180px" Ответственный
+          th width="90px" Создано
+          th width="90px" Обновлено
+          th width="40px" 
+          th
+
+      tbody
+        - @conference_records.each do |conference_record|
+          tr
+            td = conference_record.name
+            td = conference_record.description
+            td = conference_record.user&.name
+            td = format_date conference_record.date_create
+            td = format_date conference_record.date_update
+            td = link_to_last_file(conference_record)
+            = tool_icons(conference_record, {icons: "show,edit"})
