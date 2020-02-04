@@ -10,10 +10,10 @@
           v-chosen name="money_transfer_type" placeholder="Тип перемещения..." :input="true"
 
           = f.label :safe_from
-          v-chosen name="safe_from" placeholder="Откуда..." :input="true"
+          v-chosen name="safe_from" src="froms" placeholder="Откуда..." :input="true"
 
           = f.label :safe_to
-          v-chosen name="safe_to" placeholder="Куда..." :input="true"
+          v-chosen name="safe_to" src="tos" placeholder="Куда..." :input="true"
 
           = f.label :amount
           = f.number_field :amount

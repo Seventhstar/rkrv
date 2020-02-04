@@ -25,7 +25,7 @@ function toInt(d){
 }
 
 function to_sum(d){ 
-  if (isNaN(d)) return 0;
+  if (isNaN(d) || d == null) return 0;
   s = d.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1 ");
   return s;
 }
@@ -80,7 +80,6 @@ function showNotifications(){
 
 
 $(function() {
-
-
+  app = null;
   showNotifications();
 });

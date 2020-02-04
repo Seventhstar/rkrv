@@ -1,0 +1,30 @@
+---
+ru:
+  activerecord:
+    models:
+      time_right:
+        one: Ограничение по времени
+        other: Ограничения по времени
+      user: 
+        one: Пользователь
+        other: Пользователи
+        
+      departments: Отделы
+      role:
+        one: Роль 
+        other: Роли
+
+
+    actions:
+      create: "Create my %{model}"
+      update: "Save changes"
+      reset: "Reset form"
+      cancel: "Cancel and go back"
+      dummie: "Launch!"
+  helpers:
+    select:
+      prompt: ! 'Выберите: '
+    submit:
+      create: Создать
+      submit: Сохранить 
+      update: Сохранить 

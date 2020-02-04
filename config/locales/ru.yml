@@ -182,8 +182,11 @@ ru:
         name: Название
         description: Описание
         user: Ответственный
-        owner: Принадлежит
+        folder: Принадлежит
         department: Подразделение
+        type: Тип
+        date_create: Дата создания
+        date_update: Обновлено
       money_request:
         date_start: Дата начала
         date_end: Дата окончания
@@ -199,6 +202,7 @@ ru:
         date: Дата
         comment: Комментарий
         user: Ответственный
+        money_transfer_type: Вид операции
       expense:
         expense_type: Вид расхода
         department: Подразделение

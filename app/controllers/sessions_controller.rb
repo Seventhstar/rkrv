@@ -26,17 +26,17 @@ class SessionsController < ApplicationController
     else
 
       user = User.find_by(email: params[:session][:email])
-        puts "user #{user}"
+        # puts "user #{user}"
       if user && user.authenticate(params[:session][:password])
-        puts "user #{user}"
+        # puts "user #{user}"
         if user.approved
           log_in user
-          params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+          # params[:session][:remember_me] == '1' ? remember(user) : forget(user)
    
-          # default_url = current_user.has_role?(:designer) ? :projects : :leads
+          default_url = user.has_role?(:manager) ? :expenses : root_url
 
           if session[:forwarding_url] == root_url 
-            redirect_to root_url
+            redirect_to default_url
           else
             redirect_back_or root_url
           end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'user_roles/index'
   get 'conference/new'
   get 'conference/edit'
   resources :money_requests
@@ -34,6 +35,8 @@ Rails.application.routes.draw do
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
   resources :users
+  resources :roles
+  resources :user_roles
 
   # devise_scope :user do
   #   get 'sign_in', to: 'devise/sessions#new'

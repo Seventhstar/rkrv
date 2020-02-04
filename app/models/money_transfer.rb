@@ -6,6 +6,14 @@ class MoneyTransfer < ApplicationRecord
 
   has_paper_trail
 
+  def dds_from
+    self&.money_transfer_type.dds_code_from_1c
+  end
+
+  def dds_to
+    self&.money_transfer_type.dds_code_to_1c
+  end
+
   def safe_from_1c
     safe_from&.code1c
   end

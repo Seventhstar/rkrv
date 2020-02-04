@@ -202,15 +202,11 @@ module ApplicationHelper
 
   def v_value(obj, name, attr_name = nil, default = nil, safe = false)
     attr_name ||= "name"
-    # puts "attr_name #{name} - #{attr_name}"
     if !obj.nil? #&& obj.id? 
       if !obj["#{name}_id"].nil? && obj["#{name}_id"]>0
         val = obj["#{name}_id"]
         label = obj.try("#{name}_#{attr_name}")
         label = obj&.try(name)&.try(attr_name) if label.nil?
-          # puts "label #{label} #{label.nil?}" 
-          # wejh
-        # end
       end
     elsif default.present?
         val = default.id
@@ -218,6 +214,8 @@ module ApplicationHelper
     end
     h = val.present? ? {value: val, label: label} : []
     h = h.to_json.html_safe.to_s if safe
+    # if obje
+    # wekfjwke
     h
   end
 
@@ -272,6 +270,7 @@ module ApplicationHelper
         end
         if l.index(':').nil?
           collection = eval("@#{l}")
+          # puts "collection1 #{collection}"
           if collection.nil? && !l.classify.constantize.nil? && l.classify.constantize.column_names.include?('name')
             collection = l.classify.constantize.order(:name)
           end
@@ -283,6 +282,7 @@ module ApplicationHelper
             la[1].sub! 'raw', ''
           end
           collection = eval("#{la[1]}")
+          # puts "collection2 #{collection}"
           l = la[0]
         end
         if collection.present? 
@@ -316,14 +316,21 @@ module ApplicationHelper
         {label: u.try(attr_name), value: u.id} if u.try(attr_name).present? 
         {label: u[attr_name.to_sym], value: u[:id]} if u[attr_name.to_sym].present? 
       }.compact
-      # puts "collection2: #{collection}"
     else
       fields = fields_str.split(',')
       collection = collection.collect{ |u| 
-        c = {label: u.try(attr_name), value: u.id}
-        fields.each {|f| c[f] = u.try(f)}
+        c = {label: u.try(attr_name), value: u.try(:id)}
+        c = {label: u[attr_name.to_sym], value: u[:id]} if c[:value].nil? 
+        if u.is_a?(Hash)
+          fields.each {|f| c[f.to_sym] = u[f.to_sym]}
+        else
+          fields.each {|f| c[f] = u.try(f)}
+        end
+        # wjehj
         c
       }
+      # puts "collection: #{collection}"
+      # wkfjke
     end
     collection = collection.to_json.html_safe.to_s if safe
     collection

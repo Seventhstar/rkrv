@@ -10,7 +10,19 @@ ActiveAdmin.setup do |config|
   # users to your main site. Defaults to no link.
   #
   config.site_title_link = "/"
-
+  # config.namespace :admin do |admin|
+  #   admin.build_menu :utility_navigation do |menu|
+  #     menu.add label: "Язык" do |lang|
+  #       lang.add label: "English", url: proc { url_for(locale: 'en') }, id: 'i18n-en', priority: 2
+  #       lang.add label: "Русский", url: proc { url_for(locale: 'ru') }, id: 'i18n-es', priority: 1
+  #     end
+  #     menu.add :label => proc { display_name current_user },
+  #               url: '#',
+  #               id: 'current_user',
+  #               if: proc { current_user? }
+  #     admin.add_logout_button_to_menu menu
+  #   end
+  # end
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
   #

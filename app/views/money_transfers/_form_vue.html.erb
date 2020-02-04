@@ -6,12 +6,15 @@
     el: '.vue_app',
     data: <%= fill_vue_data(@money_transfer, {
       model: 'money_transfer',
+      froms: [],
+      tos: [],
       noteValid: '',
+      currentUser: [],
       formValid: false,
       filteredProjects: [],
       texts: 'comment date',
       list_values: 'safe_from safe_to money_transfer_type user',
-      lists: "safe_froms safe_tos money_transfer_types users"
+      lists: "safe_froms safes+safe_type_id safe_tos money_transfer_types users+safe"
     })
     %>,
       // user:   v_value(@money_transfer, "user", nil, current_user)
@@ -25,14 +28,64 @@
     },
 
     created(){
+      this.currentUser = this.users.find(s => s.value == this.user.value)
+      // console.log('this.currentUser', this.currentUser)
+      this.filterFroms(1)
     },
 
     watch: {
     },
 
     methods: {
-      onInput(e) {
+      filterSafes(safe_type_id, by_user_safe = false) {
+        if (by_user_safe) {
+          return this.safes.filter(s => s.safe_type_id == safe_type_id || s.value == this.currentUser.safe)
+        }
 
+        return this.safes.filter(s => s.safe_type_id == safe_type_id)
+      },
+
+      filterFroms(safe_type_id, by_user_safe = false) {
+        this.froms.length = 0
+        froms = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id, by_user_safe)
+        for (var s in froms) this.froms.push(froms[s])
+        if (by_user_safe)
+          this.safe_from = this.safe_froms.find(s => s.value == this.currentUser.safe)
+      },
+
+      filterTos(safe_type_id) {
+        this.tos.length = 0
+        tos = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id)
+        for (var s in tos) this.tos.push(tos[s])
+      },
+
+      onInput(e) {
+        if (e == undefined) return;
+        // console.log('e', e);
+        if (e.name == 'user'){
+          // console.log('user',  this.user);
+        }
+          
+        if (e.name == 'money_transfer_type' || e.name == 'user') {
+
+          let type = app.money_transfer_type.value
+          switch (type){
+            case 2:
+              this.filterFroms(1, true)
+              this.filterTos(3)
+              break;
+            case 3:
+              this.filterFroms(1)
+              this.filterTos(2)
+              // let u = this.users.find(s => s.value == this.user.value)
+              let a = this.safe_tos.find(s => s.value == this.currentUser.safe)
+              this.safe_to = a
+            break;
+            default:
+              this.filterFroms(0)
+              this.filterTos(0)
+          }
+        }
       }
     }
     

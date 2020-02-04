@@ -7,11 +7,17 @@
     data: <%= fill_vue_data(@expense, {
       model: 'expense',
       noteValid: '',
+      rowValid: false,
       formValid: false,
       filteredProjects: [],
-      texts: 'comment date',
-      list_values: 'safe expense_type department user',
-      lists: "safes expense_types departments users"
+      texts: 'comment date new_comment new_amount',
+      list_values: 'safe expense_type department user staff',
+      lists: "safes expense_types departments users staffs",
+      salary_rows:  @expense.expense_salary_rows.map{|s| { id: s.id,
+            staff: {label: s.staff_name, value: s.staff_id}, 
+            amount: s.amount, comment: s.comment,
+            _destroy: false}} 
+
     })
     %>,
     
@@ -30,6 +36,38 @@
     },
 
     methods: {
+      row_field(index, field) {
+        return "expense[expense_salary_rows_attributes]["+index+"]["+field+']'
+      },
+
+      add_row(){
+        if (this.staff !== null){
+          this.salary_rows.push({staff: this.staff, 
+                                  amount: this.new_amount, 
+                                  comment: this.new_comment, 
+                                  _destroy: false})
+          this.staff = null
+          this.new_amount = 0
+          this.new_comment = "" 
+          this.onInput();
+
+          this.calcTotal();
+        }
+      },
+
+      calcTotal(){
+        let amount =0
+        this.salary_rows.filter(sh => !sh._destroy).forEach( r =>{
+          amount = amount + toInt(r.amount)
+        })
+        this.amount = amount
+      },
+
+      del_row(index){
+        this.salary_rows[index]['_destroy'] = true
+        this.calcTotal();
+      },
+
       onInput(e) {
 
       }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_160526) do
+ActiveRecord::Schema.define(version: 2020_01_26_150006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -54,6 +54,12 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.index ["owner_id"], name: "index_attachments_on_owner_id"
   end
 
+  create_table "conference_record_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "conference_records", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -65,6 +71,8 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.date "date_update"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "conference_record_type_id"
+    t.index ["conference_record_type_id"], name: "index_conference_records_on_conference_record_type_id"
     t.index ["department_id"], name: "index_conference_records_on_department_id"
     t.index ["user_id"], name: "index_conference_records_on_user_id"
   end
@@ -81,6 +89,17 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.string "code1c"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "expense_salary_rows", force: :cascade do |t|
+    t.bigint "expense_id"
+    t.bigint "staff_id"
+    t.integer "amount"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expense_id"], name: "index_expense_salary_rows_on_expense_id"
+    t.index ["staff_id"], name: "index_expense_salary_rows_on_staff_id"
   end
 
   create_table "expense_types", force: :cascade do |t|
@@ -134,6 +153,8 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "dds_code_from_1c"
+    t.string "dds_code_to_1c"
   end
 
   create_table "money_transfers", force: :cascade do |t|
@@ -177,6 +198,25 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "safe_links", force: :cascade do |t|
+    t.integer "from_id"
+    t.integer "to_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "safe_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "salary_payments", force: :cascade do |t|
     t.date "date"
     t.bigint "department_id"
@@ -195,6 +235,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.string "department_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "safe_type_id"
     t.index ["organisation_id"], name: "index_saves_on_organisation_id"
   end
 
@@ -218,9 +259,24 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "time_rights", force: :cascade do |t|
+    t.string "model"
+    t.integer "user_id"
+    t.integer "days"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "uoms", force: :cascade do |t|
     t.string "name"
     t.string "mobile_app_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_roles", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -259,8 +315,11 @@ ActiveRecord::Schema.define(version: 2019_10_15_160526) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "conference_records", "conference_record_types"
   add_foreign_key "conference_records", "departments"
   add_foreign_key "conference_records", "users"
+  add_foreign_key "expense_salary_rows", "expenses"
+  add_foreign_key "expense_salary_rows", "staffs"
   add_foreign_key "expenses", "departments"
   add_foreign_key "expenses", "expense_types"
   add_foreign_key "expenses", "saves"

@@ -40,7 +40,7 @@
 .box_wrap label {margin-top: 6px; text-align: right; font-weight: bold; font-size: 12px;}
 .box_wrap label:not(.checkcontainer):not(.attach_list)::after {content: ":";}
 
-.vdp-datepicker input[type=text]{width: 96px; border: none; background-color: transparent;} 
+.vdp-datepicker input[type=text]{width: 100px; border: none; background-color: transparent;} 
 .vdp-datepicker input[type=text]:focus {box-shadow: none; border: none;}
 .vdp-datepicker {float: left; }
 .inp_w.vdate {border: 1px solid #c9d0d6; width: 120px; border-radius: 5px;}
@@ -50,3 +50,5 @@
               line-height: 28px; border-radius: 3px;}
 
 .box_wrap input[type=number] {width: 98px;}
+
+// .admin_namespace li.menu_item a {color: white;}

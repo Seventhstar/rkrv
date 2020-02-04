@@ -3,6 +3,7 @@ class Expense < ApplicationRecord
   belongs_to :user
   belongs_to :expense_type
   belongs_to :department
+  has_many :expense_salary_rows
 
   has_paper_trail
 

@@ -56,6 +56,9 @@ class ConferenceRecordsController < ApplicationController
     end
 
     def conference_record_params
-      params.require(:conference_record).permit(:name, :description, :folder_id, :user_id, :department_id, :admin, :date_create, :date_update)
+      params.require(:conference_record).permit(:name, :description, 
+                      :folder_id, :user_id, :department_id, 
+                      :admin, :date_create, :date_update,
+                      :conference_record_type_id)
     end
 end

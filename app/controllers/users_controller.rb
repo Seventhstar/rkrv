@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   def index
     redirect_to root_path
     @users = User.order(:name)
+    @roles = Role.order(:name)
   end
 
   # GET /users/1
@@ -79,7 +80,7 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def user_params
       params.require(:user).permit(:username, :date_birth, :email, :password, :telegram,
-                                   :password_confirmation, :avatar, :safe_id)
+                                   :password_confirmation, :avatar, :safe_id, roles_ids: [:id, :_destroy] )
     end
     
     # Before filters

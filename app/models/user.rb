@@ -10,11 +10,17 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
 
   has_secure_password
+  # has_many :roles
+  has_many :user_roles
+  has_many :roles, through: :user_roles #class_name: "UserRole", foreign_key: :user_id
+  accepts_nested_attributes_for :roles
 
   belongs_to :safe, optional: true
   validates :password, length: { minimum: 6 }, allow_blank: true
 
-  ROLES = [:admin, :superadmin, :designer, :manager].freeze 
+  scope :actual,  -> {where(approved: true).order(:username)}
+
+  ROLES = [0, :manager, :docbase, :buyer, :sales, :hr, :fin].freeze 
 
   def self.find_version_author(version)
     find(version.terminator) if version.terminator  
@@ -28,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    self.username
+    self.username.nil? ? self.email : self.username
   end
 
   # Returns a random token.
@@ -92,7 +98,7 @@ class User < ActiveRecord::Base
       else
         role_id = r_id
       end
-      # !self.roles.find_by(role_id: role_id).nil?
+      !self.user_roles.find_by(role_id: role_id).nil?
   end
 
   def has_roles()

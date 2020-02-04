@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
   include SessionsHelper
 
+  before_action :set_locale
   before_action :set_paper_trail_whodunnit
   # protect_from_forgery with: :null_session
   # before_action :configure_permitted_parameters, if: :devise_controller?
@@ -22,6 +23,14 @@ class ApplicationController < ActionController::Base
     respond_with *args, options, &blk
   end
 
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  # def default_url_options(options={})
+  #   { :locale => I18n.locale }
+  # end
 
   protected
 

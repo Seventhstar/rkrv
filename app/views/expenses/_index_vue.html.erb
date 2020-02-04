@@ -1,0 +1,26 @@
+<script>
+  Vue.component('v-select', VueSelect.VueSelect)
+
+  let app = new Vue({
+    el: '.expenses', 
+    mixins: [m_created, m_index],
+    data: <%= fill_vue_data(nil, { 
+      sortKey: 'sortdate',
+      controller: 'expenses',
+      reverse: true,
+      currentIndex: -1,
+      currentMonth: -1,
+      confirmModal: false,
+      groupHeaders: [],
+      filter: [],
+      grouped: [],
+      filteredData: [],
+      list_values: 'safe department expense_type',
+      lists: 'safes departments expense_types users mainList:raw@json_expenses',
+      columns: [['date', 'Дата'], ['safe', 'Сейф'], ['amount', 'Сумма'],
+                ['department', 'Магазин'], ['expense_type', 'Категория'], ['user', 'Кто'], 
+                ['comment', 'Комментарий']]
+      
+    }) %>,
+})
+</script>

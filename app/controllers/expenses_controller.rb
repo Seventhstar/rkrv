@@ -1,7 +1,10 @@
 class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy]
   before_action :def_values, only: [:new, :create, :edit, :update]
+  before_action :logged_in_user
   respond_to :html
+
+  include AccessHelper
 
   def index
     if params[:date_start].present? && params[:date_end].present?
@@ -11,6 +14,29 @@ class ExpensesController < ApplicationController
     else
       @expenses = Expense.all
     end
+
+    @departments = Department.order(:name)
+    @safes = Safe.order(:name)
+
+    if current_user&&!current_user.admin?
+      @expenses = @expenses.where(user_id: current_user.id)
+    end
+
+    @json_expenses = @expenses.order(date: :desc).map{|e| {
+      id: e.id, 
+      date: e.date.try('strftime',"%d.%m.%Y"),
+      sortdate: e.date,
+      month: t(e.date.try('strftime',"%B")) + " " + e.date.try('strftime',"%Y"),
+      safe: e.safe&.name,
+      amount: e.amount,
+      department: e.department&.name,
+      expense_type: e.expense_type&.name,
+      user: e.user&.name,
+      editable: allow_edit(e, e.date),
+      comment: e.comment
+    }}
+
+
     respond_with(@expenses)
   end
 
@@ -59,6 +85,8 @@ class ExpensesController < ApplicationController
     end
 
     def expense_params
-      params.require(:expense).permit(:date, :amount, :safe_id, :expense_type_id, :department_id, :comment, :user_id)
+      params.require(:expense).permit(:date, :amount, :safe_id, :expense_type_id, 
+                    :department_id, :comment, :user_id,
+                     expense_salary_rows_attributes: [:id, :staff_id, :amount, :comment, :_destroy])
     end
 end

@@ -1,5 +1,7 @@
 ActiveAdmin.register Department do
   permit_params :name
+  menu parent: "Структура", label: 'Отдел' 
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #

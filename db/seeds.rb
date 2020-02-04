@@ -5,4 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+
+if SafeType.count==0
+  SafeType.create!([{name: 'Сейф ТТ'}, {name: 'Сейф Упр'}, {name: 'р/счет'}])
+end
+
+if Role.count==0
+  Role.create!([{name: 'Управляющий'}, {name: 'Документооборот'}, {name: 'Закупки'}, {name: 'Продажи'}, {name: 'Отдел кадров'}, {name: 'Финансы'}])
+end

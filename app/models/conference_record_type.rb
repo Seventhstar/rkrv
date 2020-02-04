@@ -1,0 +1,2 @@
+class ConferenceRecordType < ApplicationRecord
+end

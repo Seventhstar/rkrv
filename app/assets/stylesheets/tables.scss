@@ -4,5 +4,40 @@
 .request_rows {display: grid; grid-template-columns: 122px 150px 50px 1fr 170px 100px; grid-gap: 10px; }
 .box_wrap_lr {display: grid; grid-template-columns: 561px 1fr; grid-gap: 20px;}
 
+.index_table .icon_edit {margin-right: 4px; }
+
 .panel-left-mini {float: left; width: 200px;}
+
 .modal-grid {display: grid; grid-template-columns: auto 64px;}
+
+.panel_right {width: 48%; float:right; display: block;}
+.panel_left.w35 {width: 35%; float: left; display: block;}
+.panel_right.w60 {width: 62%; float:right; display: block;}
+
+.expenses_table{border: 1px solid #e4eaec; border-radius: 3px; margin-bottom: 20px; }
+
+.expense{margin: 0 auto; }
+
+input[type="submit"]{height: 34px; width: auto !important; }
+
+.table_expenses { grid-template-columns: 90px 250px 110px 290px 470px 166px auto 55px; }
+
+.salary_rows {display: grid; grid-template-columns: auto 200px 100px 100px; grid-gap: 10px;}
+// .expense_rows.new_row>div{padding: 2px;}
+// .expense_rows.new_row .v-select input[type=search], .expense_rows.new_row .v-select input[type=search]:focus{height: 30px !important; }
+// .expense_rows.new_row input{height: 32px !important; }
+// .expense_rows.new_row .btn_a{height: 32px !important; }
+
+
+// .expenses li {border-bottom: 1px solid #c4cacc}
+// .expenses li div { vertical-align: middle; color: #5a5a5a; font-size: 12px; }
+
+// .grid_title {
+//   background-color: #e4eaec;
+//   border: 1px solid #e4eaec;
+//   border-radius: 3px 3px 0 0;
+//   font-size: 14px;
+//   font-weight: 700;
+//   padding: 8px;
+  
+// }

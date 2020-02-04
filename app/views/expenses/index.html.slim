@@ -1,32 +1,19 @@
-#title_bar.title_bar
-  #titlebar_left
-    h1 Расходы
-  .action_items
-    span.action_item.right
-      = link_to 'Добавить', new_expense_path
+.head
+  | Расходы
+  = link_to 'Добавить расход', new_expense_path, class: 'btn btn_a right'
 
+.ower  
+  .expenses
+    .table_filter
+      div
+        v-chosen name="safe" placeholder="Сейфы..." 
+      div
+        v-chosen name="department" placeholder="Подразделение..." 
+      div
+        v-chosen name="expense_type" placeholder="Вид расхода..."
+      div
+        button @click="clearAll()" Сбросить  
 
-table#index_table_admin_users.index_table.index border="0" cellpadding="0" cellspacing="0" paginator="true"
-  thead
-    tr
-      th Дата
-      th Касса/Сейф
-      th Сумма
-      th Вид расхода
-      th Подразделение
-      th Ответственный
-      th Комментарий
-      th
-
-  tbody
-    - @expenses.each do |expense|
-      tr
-        td = format_date(expense.date)
-        td = expense.safe&.name
-        td.td_right = expense.amount&.to_sum 
-        td = expense.expense_type&.name
-        td = expense.department&.name
-        td = expense.user&.name
-        td = expense.comment
-        = tool_icons(expense, {icons: 'edit'})
-
+    = render 'shared/index'
+    = render 'shared/modal_delete'
+= render 'index_vue'
