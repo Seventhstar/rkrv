@@ -1,0 +1,21 @@
+p#notice = notice
+
+p
+  strong Safe:
+  = @leftover.safe_id
+p
+  strong Organization:
+  = @leftover.organization_id
+p
+  strong Calculated:
+  = @leftover.calculated
+p
+  strong By hand:
+  = @leftover.by_hand
+p
+  strong Date:
+  = @leftover.date
+
+=> link_to 'Edit', edit_leftover_path(@leftover)
+'|
+=< link_to 'Back', leftovers_path

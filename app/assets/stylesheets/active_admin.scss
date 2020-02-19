@@ -49,6 +49,8 @@
 .clear span { font-size: 18px; font-weight: bolder; line-height: 1; color: #ca0000; cursor: pointer; 
               line-height: 28px; border-radius: 3px;}
 
+.table_filter .v-select .dropdown-toggle .clear {box-shadow: none; margin-top: 0; background-image: none;}
+
 .box_wrap input[type=number] {width: 98px;}
 
 // .admin_namespace li.menu_item a {color: white;}

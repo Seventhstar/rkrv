@@ -1,5 +1,5 @@
 class TimeRight < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
 
   MODELS = [['Расходы', 'Expense'], ['Перемещения', 'MoneyTransfer']]
   

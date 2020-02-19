@@ -1,0 +1,29 @@
+<script>
+  Vue.component('v-select', VueSelect.VueSelect)
+
+  let app = new Vue({
+    el: '.leftovers', 
+    mixins: [m_created, m_index],
+    data: <%= fill_vue_data(nil, { 
+      sortKey: 'sortdate',
+      controller: 'leftovers',
+      reverse: true,
+      groupName: 'safe',
+      currentIndex: -1,
+      currentMonth: -1,
+      confirmModal: false,
+      groupHeaders: [],
+      integers: ['in', 'out', 'start', 'end'],
+      filter: [],
+      grouped: [],
+      filteredData: [],
+      list_values: 'safe department',
+      lists: 'safes departments users mainList:raw@json_date',
+      columns: [['organisation', 'ИП'], 
+                ['start', 'Нач. ост.'], 
+                ['in', 'Приходы'], ['out', 'Расходы'],
+                ['end', 'Кон. ост.']]
+      
+    }) %>,
+})
+</script>

@@ -1,24 +1,22 @@
 div v-for="month in groupHeaders"
-  .expenses_table v-if="grouped[month].length >0"
+  div class="#{controller.controller_name}_table grid_table" v-if="grouped[month].length >0"
     .grid_title 
       |{{month}}
 
     div :class="tableClass('grid_thead')" 
-      div v-for="column in columns"
+      .td_center v-for="column in columns" 
         a href="#" @click="sortBy(column[0], month)" {{ column[1] }}
 
     transition-group name="flip-list" tag="ul" 
-      li :key="item.id" v-for="item in grouped[month]"
+      li :key="item.id" v-for="item in grouped[month]" :out="item.out"
         div :class="tableClass('')" 
-          div :class="tdClass(column)" v-for="column in columns"
+          div :class="tdClass(column, item[column[0]])" v-for="column in columns"
             | {{ formatValue(item[column[0]], column[0]) }}
           .edit_delete.td_right style="" v-if="item.editable"
-            / a.icon.icon_copy :href="copyLink(item.id)" 
+            a.icon.icon_show :href="detailLink(item)" v-if="hasDetail(item)" target="_blank"
             a.icon.icon_edit :href="editLink(item.id)"    
-            span.icon.icon_remove @click="deleteRow(month, item)"
+            span.icon.icon_del @click="deleteRow(month, item)"
 
     div :class="tableClass('grid_total')" 
-      div Итого:
-      div
-      .td_right  
-        |{{fCalcTotal(month)}}
+      div :class="tdClass(column)" v-for="column, i in columns"  
+        |{{fCalcTotal(month, column, i)}}

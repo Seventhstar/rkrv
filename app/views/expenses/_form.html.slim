@@ -4,7 +4,15 @@
       .panel-left
         .grid_middle_label_name
           = f.label :date
-          v-date name="date" 
+          div
+            .left
+              v-date name="date"
+            .left style="width: 298px;"
+              .left
+                = f.label "ИП", {style: "width: 40px; margin-right: 5px"}
+              .left style="width: 253px;"
+                v-chosen name="organisation" :input="true"
+
 
           = f.label :expense_type
           v-chosen name="expense_type" placeholder="Тип расхода..." :input="true"
@@ -29,7 +37,10 @@
             = f.submit
       .panel_right.w60
         #e_rows.salary.before_30
-          = render 'salary_rows'
+          / = render 'salary_rows'
 
+
+  transition name="appear"
+    confirmation-modal :text="confirmText" v-if='confirmModal'
 
 = render 'form_vue'

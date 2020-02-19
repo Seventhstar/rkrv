@@ -1,0 +1,22 @@
+.vue_app
+  = form_for @leftover do |f|
+    .box_wrap.box_wrap_1
+      .panel-left
+        .grid_middle_label_name
+          = f.label :date
+          v-date name="date" 
+
+          = f.label 'Сейф'
+          v-chosen name="safe" placeholder="Сейф..." :input="true"
+
+          = f.label 'Организация'
+          v-chosen name="organisation" placeholder="Организация..." :input="true"
+
+          = f.label 'Текущий остаток'
+          = f.number_field :by_hand
+
+          div
+          .actions 
+            = f.submit
+
+= render 'form_vue'

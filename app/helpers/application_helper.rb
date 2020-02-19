@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include RolesHelper
   def attr_boolean?(item, attr)
     item.column_for_attribute(attr.to_s).type == :boolean
   end
@@ -9,18 +10,6 @@ module ApplicationHelper
 
   def attr_date_or_bool?(item, attr)
     attr_boolean?(item, attr) || attr_date?(item, attr)
-  end
-
-  def is_admin?
-    current_user.admin?
-  end
-
-  def is_author_of?(obj)
-    current_user.author_of?(obj)
-  end
-
-  def is_manager?
-    current_user.has_role?(:manager)
   end
 
   def contact_kind_src
@@ -219,20 +208,87 @@ module ApplicationHelper
     h
   end
 
-  def fill_vue_data(obj, data, where = nil)
-     # kjl k
-    if data[:required_list].present?
-        data[:required] = []
-        data[:requiredTranslated] = []
+  def string_to_array(string)
+    if string.class == Array 
+      return string
+    elsif string.include?(' ')
+      return string.split(' ').map(&:strip)
+    elsif string.include?(',')
+      return string.split(',').map(&:strip)
+    end
+    string.split(' ')
+  end
 
-        data[:required_list].split(' ').each do |r|
-          data[:required] << r
-          data[:requiredTranslated] << t(r)
+
+  def fill_vue_data(obj, data, where = nil)
+    if controller.action_name == "index" 
+      data[:controller] = controller.controller_name if !data[:controller].present? 
+    end
+
+    if data[:columns].present? && [String, Array].include?(data[:columns].class)
+      new_array = []
+      string_to_array(data[:columns]).each do |col| 
+        if col.class == Array
+          c     = col[0]
+          label = col[1]
+        else
+          c     = col.include?(':') ? col.split(':')[0] : col
+          label = col.include?(':') ? col.split(':')[1] : t(c)
         end
+        c = c[0..-4] if c.end_with?("_id") 
+        new_array.push([c, label])
+      end
+      data[:columns] = new_array
+    end
+
+    if data[:groupBys].present?
+      data[:lists] = !data[:lists].present? ? [] : string_to_array(data[:lists])
+      data[:translated] = {} if !data[:translated].present? 
+      data[:list_values] = [] if !data[:list_values].present?
+      data[:list_values] = data[:list_values].push('groupBy').compact
+      # puts "data[:list_values] #{data[:list_values]}"
+      new_array = []
+      string_to_array(data[:groupBys]).each do |fi|
+        if fi.include?(':')
+          f = fi.split(':')
+          val = f[0]
+          label = f[1].gsub('_', ' ')
+        else
+          val = fi
+          label = t(fi)
+        end
+        data[:lists].push(val.classify.pluralize.downcase)
+        data[:translated][val] = label 
+        new_array.push({label: label, value: val})
+      end      
+      data[:groupBys] = new_array
+    end
+
+    if data[:filterItems].present?
+      data[:lists] = !data[:lists].present? ? [] : string_to_array(data[:lists])
+      data[:translated] = {} if !data[:translated].present? 
+      data[:list_values] = [] if !data[:list_values].present?
+
+      string_to_array(data[:filterItems]).each do |fi|
+        data[:list_values] << fi
+        data[:lists].push(fi.classify.pluralize.downcase)
+        data[:translated][fi] = t(fi+'_id')
+      end
+      @filterItems = data[:filterItems]
+    end
+
+    if data[:required_list].present?
+      data[:required] = []
+      data[:requiredTranslated] = []
+
+      string_to_array(data[:required_list]).each do |r|
+        data[:required] << r
+        data[:requiredTranslated] << t(r)
+      end
     end
 
     if data[:booleans].present?
-      data[:booleans].split(' ').each do |b|
+      string_to_array(data[:booleans]).each do |b|
         # puts "booleans", b, obj[b].nil?
         data[b] = obj[b].nil? ? eval("@#{b}") : obj[b]
       end
@@ -240,27 +296,15 @@ module ApplicationHelper
     end
 
     if data[:texts].present? 
-      data[:texts].split(' ').each do |t|
+      string_to_array(data[:texts]).each do |t|
         data[t] = eval("@#{t}")
-        # puts data[t], t
         data[t] = obj.nil? || obj[t].nil? ? '' : obj[t] if data[t].nil?
       end
       data.delete(:texts)
     end
 
-    if data[:list_values].present? 
-      data[:list_values].split(' ').each do |li| 
-        v = v_value(nil, nil, nil, eval("@#{li}"))        
-        # puts "li #{li} - v #{v}"
-        v = v_value(obj, li) if !v.present?
-        # puts "li #{li} - v #{v} - #{obj[li]} : #{obj}"
-        data[li] = v
-      end
-      data.delete(:list_values)
-    end
-
     if data[:lists].present? # collection_name[:source_name][+field1,field2...]
-      data[:lists].split(' ').each do |l|
+      string_to_array(data[:lists]).each do |l|
         fields = nil
         raw = false
         if l.index('+').present? 
@@ -268,35 +312,24 @@ module ApplicationHelper
           fields = lf[1]
           l = lf[0]
         end
+        
         if l.index(':').nil?
           collection = eval("@#{l}")
-          # puts "collection1 #{collection}"
-          if collection.nil? && !l.classify.constantize.nil? && l.classify.constantize.column_names.include?('name')
-            collection = l.classify.constantize.order(:name)
-          end
-          # puts "l #{l}: #{collection.length}" if collection.present?
         else
           la = l.split(':')
           if la[1].include?('raw')
             raw = true
-            la[1].sub! 'raw', ''
+            la[1].sub!('raw', '')
           end
           collection = eval("#{la[1]}")
-          # puts "collection2 #{collection}"
           l = la[0]
         end
+
         if collection.present? 
           if raw 
             data[l] = collection 
           else
-            # puts "1. data[:lists] #{data[:lists]}, l: #{l}", "collection: #{collection} #{collection.length}"
-            col = nil
-            if l.classify.try('constantise').present?
-              col = l.classify.constantize.column_names.map{|m| m if m.include?('name')}.compact
-            end
-            attr_name = (col && col.length) ? col[0] : 'name' 
-            data[l] = select_src(collection, attr_name, false, fields) 
-            # puts "2. l #{l} collection: #{collection}", "data[l] #{data[l]}"
+            data[l] = select_src(collection, "name", false, fields) 
           end
         else
           data[l] = []
@@ -305,8 +338,25 @@ module ApplicationHelper
       data.delete(:lists)
     end
 
+    if data[:list_values].present? 
+      string_to_array(data[:list_values]).each do |li| 
+        v = v_value(nil, nil, nil, eval("@#{li}"))        
+        v = v_value(obj, li) if !v.present?
+        if v.class == Integer
+          v = data[li.pluralize].select {|a| a[:value] == v }
+          v = v[0] if v.length
+          # wkfhjek
+        end
+        # puts "li #{li} - v #{v}"
+        data[li] = v
+        # puts "data #{data}"
+      end
+      data.delete(:list_values)
+    end
+
     return data.to_json.html_safe.to_s
   end
+
 
   def select_src(collection, attr_name = "name", safe = false, fields_str = nil)
     # puts collection.class

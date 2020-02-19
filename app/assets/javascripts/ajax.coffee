@@ -3,13 +3,15 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 @sort_base_url = ->
-  method = if $('#cur_method').val() == 'edit_multiple' then '/edit_multiple' else ''
-  controller =  $('#search').attr('cname')
-  controller = controller + "/" + $('#search').attr('mname') if controller == 'options'
-  if controller == undefined
-    href = window.location.toString().split("/")[3]
-    controller = href
-  return controller+method
+  href = window.location.toString().split("?")[0].split("/")[3]
+  return href
+  # method = if $('#cur_method').val() == 'edit_multiple' then '/edit_multiple' else ''
+  # controller =  $('#search').attr('cname')
+  # controller = controller + "/" + $('#search').attr('mname') if controller == 'options'
+  # if controller == undefined
+  #   href = window.location.toString().split("/")[3]
+  #   controller = href
+  # return controller+method
 
 @sortable_prepare = (params, getFromUrl = false) ->
   actual = if $('.switcher_a .link_a').length == 0 then null else $('.switcher_a .link_a').hasClass('on')
@@ -56,12 +58,15 @@
     return 
   return url
 
-@sortable_query = (params)->
+@sortable_query = (params, reload = false)->
   url = sortable_prepare(params)
   base_url = sort_base_url()
 
-  $.get '/'+base_url, url, null, 'script'
-  setLoc(""+base_url+"?"+ajx2q(url));
+  setLoc(""+base_url+"?"+ajx2q(url))
+  if (reload) 
+    setTimeout('document.location.reload(true)', 200)
+  else 
+    $.get '/'+base_url, url, null, 'script'
   return
 
 @modal_apply = (th, newItem=false)->
@@ -95,3 +100,6 @@
 $(document).ready ->
   $(document).off('click', 'span.modal_apply').on 'click', 'span.modal_apply', ->
     modal_apply($(this))
+  $('.month').on 'click','.cal-next',->
+    sortable_query({m: $(this).attr('cur-period')}, true)
+  return

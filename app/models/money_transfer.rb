@@ -2,9 +2,23 @@ class MoneyTransfer < ApplicationRecord
   belongs_to :safe_from, class_name: 'Safe'
   belongs_to :safe_to, class_name: 'Safe'
   belongs_to :user
+  belongs_to :o_from, class_name: 'Organisation', foreign_key: 'o_from_id'
+  belongs_to :o_to, class_name: 'Organisation', foreign_key: 'o_to_id'
   belongs_to :money_transfer_type
 
   has_paper_trail
+
+  def from
+    self.safe_from&.name
+  end
+
+  def to
+    self.safe_to&.name
+  end
+
+  def date
+    self.doc_date
+  end
 
   def dds_from
     self&.money_transfer_type.dds_code_from_1c

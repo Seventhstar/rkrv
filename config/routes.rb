@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :money_card
+  resources :leftovers
   get 'user_roles/index'
   get 'conference/new'
   get 'conference/edit'

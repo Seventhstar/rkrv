@@ -1,9 +1,10 @@
 class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy]
-  before_action :def_values, only: [:new, :create, :edit, :update]
+  before_action :def_values, only: [:new, :create, :edit, :update, :index]
   before_action :logged_in_user
   respond_to :html
 
+  include RolesHelper
   include AccessHelper
 
   def index
@@ -18,7 +19,7 @@ class ExpensesController < ApplicationController
     @departments = Department.order(:name)
     @safes = Safe.order(:name)
 
-    if current_user&&!current_user.admin?
+    if !is_admin?
       @expenses = @expenses.where(user_id: current_user.id)
     end
 
@@ -63,6 +64,7 @@ class ExpensesController < ApplicationController
 
   def update
     @expense.update(expense_params)
+    flash[:error] = @expense.errors.full_messages if @expense.errors.any?
     respond_with(@expense, location: expenses_path)
   end
 
@@ -73,9 +75,10 @@ class ExpensesController < ApplicationController
 
   private
     def def_values
-      # safes = Safe.order(:name)
-      # departments = Department.order(:name)
-      # expense_types = ExpenseType.order(:name)
+      @safes = Safe.order(:name)
+      @organisations = Organisation.order(:name)
+      @departments = Department.order(:name)
+      @expense_types = ExpenseType.order(:name)
       @users = User.order(:username)
 
     end
@@ -86,7 +89,7 @@ class ExpensesController < ApplicationController
 
     def expense_params
       params.require(:expense).permit(:date, :amount, :safe_id, :expense_type_id, 
-                    :department_id, :comment, :user_id,
+                    :department_id, :comment, :user_id, :organisation_id,
                      expense_salary_rows_attributes: [:id, :staff_id, :amount, :comment, :_destroy])
     end
 end

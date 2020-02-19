@@ -1,6 +1,6 @@
 class SalaryPaymentsController < ApplicationController
   before_action :set_salary_payment, only: [:show, :edit, :update, :destroy]
-
+  before_action :logged_in_user
   respond_to :html
 
   def index

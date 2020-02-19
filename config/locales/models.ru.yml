@@ -5,11 +5,20 @@ ru:
       time_right:
         one: Ограничение по времени
         other: Ограничения по времени
+      safe_type:
+        one: Тип сейфа
+        other: Типы сейфов
+      safe: 
+        one: Сейф
+        other: Сейфы
+
       user: 
         one: Пользователь
         other: Пользователи
+      department: 
+        one: Подразделение
+        other: Подразделения
         
-      departments: Отделы
       role:
         one: Роль 
         other: Роли

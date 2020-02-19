@@ -1,5 +1,22 @@
 ---
 ru:
+  safe_from_id: Из сейфа
+  safe_to_id: В сейф
+  amount: Сумма
+  
+  money_transfer_type_id: Вид перемещения
+
+  doc_date: Дата
+  doc_type: Вид
+  Expense: Расход
+  MoneyTransfer: Перемещение
+  from: Откуда
+  to: Куда/На что
+  id: '#'
+
+  comment: Комментарий
+  user_id: Ответственный
+  created_at: Дата создания
   activerecord:
     errors:
       messages:
@@ -202,7 +219,10 @@ ru:
         date: Дата
         comment: Комментарий
         user: Ответственный
-        money_transfer_type: Вид операции
+        o_from: ИП откуда
+        o_to: ИП куда
+
+        money_transfer_type: Вид перемещения
       expense:
         expense_type: Вид расхода
         department: Подразделение
@@ -215,7 +235,7 @@ ru:
       staff:
         name: ФИО
         phone: Телефон
-        department: Отдел
+        department: Подразделение
         in_date: Дата приема
         out_date: Дата увольнения
         birthday: День рождения

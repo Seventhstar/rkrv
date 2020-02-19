@@ -1,35 +1,21 @@
-#title_bar.title_bar
-  #titlebar_left
-    h1 Перемещение денежных средств
-  #titlebar_right
-  .action_items
-    span.action_item
-      = link_to 'Из кассы ТТ', new_money_transfer_path(type: 1)
+.head
+  | Перемещение ДС
+  = link_to 'Добавить', new_money_transfer_path, class: 'btn btn_a right'
 
-table#index_table_admin_users.index_table.index border="0" cellpadding="0" cellspacing="0" paginator="true"
-  thead
-    tr
-      th Дата
-      th Тип
-      th Откуда
-      th Куда
-      th Сумма
-      th Ответственный
-      th Комментарий
-      th
+.ower  
+  .expenses.grid_tables
+    .table_filter
+      div
+        v-chosen name="safe_from" placeholder="Из сейфа..." clear=true
+      div
+        v-chosen name="safe_to" placeholder="В сейф..."  clear=true
+      div
+        v-chosen name="user" placeholder="Ответственный..."  clear=true
+      div
+        v-chosen name="money_transfer_type" placeholder="Вид перемещения..." clear=true  
+      div
+        button @click="clearAll()" Сбросить  
 
-  tbody
-    - @money_transfers.each do |money_transfer|
-      tr
-        td = format_date(money_transfer.date)
-        td = money_transfer.money_transfer_type&.name
-        td = money_transfer.safe_from&.name
-        td = money_transfer.safe_to&.name
-        td.td_right = money_transfer.amount&.to_sum
-        td = money_transfer.user&.name
-        td = money_transfer.comment
-        = tool_icons(money_transfer, {icons: 'edit'})
-
-br
-
-/ = link_to 'New Money transfer', new_money_transfer_path
+    = render 'shared/index'
+    = render 'shared/modal_delete'
+= render 'index_vue'

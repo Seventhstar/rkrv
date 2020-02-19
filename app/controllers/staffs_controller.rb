@@ -1,7 +1,7 @@
 class StaffsController < ApplicationController
   before_action :set_staff, only: [:show, :edit, :update, :destroy]
   before_action :def_values, only: [:new, :create, :edit, :update]
-
+  before_action :logged_in_user
   respond_to :html
 
   def index

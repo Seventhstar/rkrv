@@ -4,7 +4,7 @@
       .panel-left
         .grid_middle_label_name
           = f.label :date
-          v-date name="date" 
+          v-date name="doc_date" 
           
           = f.label :money_transfer_type
           v-chosen name="money_transfer_type" placeholder="Тип перемещения..." :input="true"
@@ -12,8 +12,14 @@
           = f.label :safe_from
           v-chosen name="safe_from" src="froms" placeholder="Откуда..." :input="true"
 
+          = f.label :o_from
+          v-chosen name="o_from" src="o_froms" placeholder="ИП откуда..." :input="true"
+
           = f.label :safe_to
           v-chosen name="safe_to" src="tos" placeholder="Куда..." :input="true"
+
+          = f.label :o_to
+          v-chosen name="o_to" src="o_tos" placeholder="ИП куда..." :input="true"
 
           = f.label :amount
           = f.number_field :amount

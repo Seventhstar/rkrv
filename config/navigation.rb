@@ -60,6 +60,7 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :product_leftovers, 'Остатки', product_leftovers_path if current_user.has_role?(:buyer)
     primary.item :money_transfers, 'Перемещения ДС', money_transfers_path if current_user.has_role?(:manager)
     primary.item :expenses, 'Расходы', expenses_path if current_user.has_role?(:manager)
+    primary.item :leftovers, 'Остатки ДС', leftovers_path if current_user.has_role?(:manager)
     primary.item :staffs, 'Персонал', staffs_path if current_user.has_role?(:hr)
     primary.item :money_requests, 'Заявки ДС', money_requests_path if current_user.has_role?(:fin)
     primary.item :conference_records, 'Документы', conference_records_path if current_user.has_role?(:docbase)

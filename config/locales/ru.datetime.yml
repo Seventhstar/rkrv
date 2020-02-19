@@ -18,7 +18,7 @@ ru:
       long: ! '%d %B %Y, %H:%M'
       short: ! '%d %b, %H:%M'
     pm: вечера
-  date:
+  date1:
     formats:
       default: "%d.%m.%Y-"
       short: "%b %d"

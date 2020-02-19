@@ -1,6 +1,6 @@
 class ProductLeftoversController < ApplicationController
   before_action :set_product_leftover, only: [:show, :edit, :update, :destroy]
-
+  before_action :logged_in_user
   respond_to :html
 
   def index

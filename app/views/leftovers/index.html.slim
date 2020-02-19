@@ -1,0 +1,23 @@
+.head
+  span.left Остатки ДС
+  .month
+    span.cal-next cur-period="#{@current_month-1.month}" <
+    span.cal-month
+      = month_year(@current_month)
+    span.cal-next cur-period="#{@current_month+1.month}" >
+
+  = link_to 'Добавить', new_leftover_path, class: 'btn btn_a right'
+
+.ower  
+  .leftovers.grid_tables
+    .table_filter
+      div
+        v-chosen name="safe" placeholder="Сейфы..." clear="true"
+      div
+        v-chosen name="department" placeholder="Подразделение..." 
+      div
+        button @click="clearAll()" Сбросить  
+
+    = render 'shared/index'
+    = render 'shared/modal_delete'
+= render 'index_vue'

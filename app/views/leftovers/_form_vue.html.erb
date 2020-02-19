@@ -1,0 +1,35 @@
+<script>
+  Vue.component('v-select', VueSelect.VueSelect)
+  Vue.component('datepicker', vuejsDatepicker )
+
+  let app = new Vue({
+    el: '.vue_app',
+    data: <%= fill_vue_data(@leftover, {
+      model: 'leftover',
+      noteValid: '',
+      rowValid: false,
+      formValid: false,
+      texts: 'date',
+      list_values: 'safe organisation',
+      lists: "safes organisations"
+    })
+    %>,
+    
+    updated(){
+      this.onInput();
+    },
+
+    mounted(){
+      this.$root.$on('onInput', this.onInput);
+    },
+
+    methods: {
+
+      onInput(e) {
+
+      }
+    }
+    
+  });
+
+</script>

@@ -1,0 +1,25 @@
+<script>
+  Vue.component('v-select', VueSelect.VueSelect)
+
+  let app = new Vue({
+    el: '.expenses', 
+    mixins: [m_created, m_index],
+    data: <%= fill_vue_data(nil, { 
+      sortKey: 'sortdate',
+      controller: 'money_transfers',
+      reverse: true,
+      currentIndex: -1,
+      currentMonth: -1,
+      confirmModal: false,
+      groupHeaders: [],
+      filter: [],
+      grouped: [],
+      filteredData: [],
+      list_values: 'safe_from safe_to user expense_type money_transfer_type',
+      lists: "safe_froms safe_tos departments expense_types users \
+              money_transfer_types mainList:raw@json_data",
+      columns: @columns
+      
+    }) %>,
+})
+</script>

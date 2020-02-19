@@ -24,6 +24,12 @@ function toInt(d){
   return parseInt(d);
 }
 
+function toSum(d){ 
+  if (isNaN(d) || d == undefined) return 0;
+  s = d.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1 ");
+  return s;
+}
+
 function to_sum(d){ 
   if (isNaN(d) || d == null) return 0;
   s = d.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1 ");
@@ -80,6 +86,6 @@ function showNotifications(){
 
 
 $(function() {
-  app = null;
+  //app = null;
   showNotifications();
 });

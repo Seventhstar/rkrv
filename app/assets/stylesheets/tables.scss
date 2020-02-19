@@ -1,6 +1,9 @@
 .grid_label_name  {display: grid; grid-template-columns: 150px 1fr; grid-gap: 10px; }
 .grid_middle_label_name {display: grid; grid-template-columns: 170px 1fr; grid-gap: 10px; }
 
+.table_money_transfers  {display: grid; grid-template-columns: 170px 1fr 1fr 1fr 100px 1fr 1fr 55px;  }
+.table_money_card  {display: grid; grid-template-columns: 40px 72px 88px 110px 280px 280px 200px 1fr 55px  }
+
 .request_rows {display: grid; grid-template-columns: 122px 150px 50px 1fr 170px 100px; grid-gap: 10px; }
 .box_wrap_lr {display: grid; grid-template-columns: 561px 1fr; grid-gap: 20px;}
 
@@ -14,13 +17,49 @@
 .panel_left.w35 {width: 35%; float: left; display: block;}
 .panel_right.w60 {width: 62%; float:right; display: block;}
 
-.expenses_table{border: 1px solid #e4eaec; border-radius: 3px; margin-bottom: 20px; }
+.expenses_table, .grid_table{border: 1px solid #e4eaec; border-radius: 3px; margin-bottom: 20px; }
 
 .expense{margin: 0 auto; }
+
+.td.red {color: red;}
+
+ul {list-style:none; padding: 0; margin: 0;}
+.grid_tables li {border-bottom: 1px solid #c4cacc; list-style: none;}
+// .expenses li {border-bottom: 1px solid #c4cacc}
+.grid_tables li div { vertical-align: middle; color: #5a5a5a; font-size: 12px; }
+
+.grid_title {
+  background-color: #e4eaec;
+  border: 1px solid #e4eaec;
+  border-radius: 3px 3px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px;
+  
+}
+
+.grid_thead {
+  background-color: #f5f5f5;
+  border-top: 1px solid #c4cacc;
+  border-bottom: 1px solid #ccc;
+  font-weight: 700;
+}
+
+.grid_total{background-color: #f5f5f5; font-weight: 700; }
+
+.grid_thead a, .grid_thead a:visited {color: #777; }
+
+
+.flip-list-move {transition: transform .5s; }
+
 
 input[type="submit"]{height: 34px; width: auto !important; }
 
 .table_expenses { grid-template-columns: 90px 250px 110px 290px 470px 166px auto 55px; }
+.table_leftovers  { display: grid; grid-template-columns: 240px repeat(4, 110px) 72px; }
+.table_filter{display: grid; grid-template-columns: repeat(5, 1fr) 80px; column-gap: 20px; margin-bottom: 20px; }
+
+.index_table {padding: 4px 8px; display: grid; grid-gap: 4px;}
 
 .salary_rows {display: grid; grid-template-columns: auto 200px 100px 100px; grid-gap: 10px;}
 // .expense_rows.new_row>div{padding: 2px;}

@@ -1,7 +1,7 @@
 class ConferenceRecordsController < ApplicationController
   before_action :set_conference_record, only: [:show, :edit, :update, :destroy]
   before_action :def_values, only: [:new, :create, :edit, :update]
-
+  before_action :logged_in_user
   include FileHelper
   include VueHelper
 

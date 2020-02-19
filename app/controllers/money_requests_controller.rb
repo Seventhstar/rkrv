@@ -1,6 +1,7 @@
 class MoneyRequestsController < ApplicationController
   before_action :set_money_request, only: [:show, :edit, :update, :destroy]
   before_action :def_values, only: [:new, :create, :edit, :update]
+  before_action :logged_in_user
   respond_to :html
 
   def index

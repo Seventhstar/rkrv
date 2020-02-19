@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_26_150006) do
+ActiveRecord::Schema.define(version: 2020_02_11_090507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_01_26_150006) do
     t.string "code1c"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "organisation_id"
   end
 
   create_table "expense_salary_rows", force: :cascade do |t|
@@ -119,10 +120,21 @@ ActiveRecord::Schema.define(version: 2020_01_26_150006) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "organisation_id"
     t.index ["department_id"], name: "index_expenses_on_department_id"
     t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id"
     t.index ["safe_id"], name: "index_expenses_on_safe_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
+  end
+
+  create_table "leftovers", force: :cascade do |t|
+    t.integer "safe_id"
+    t.integer "organisation_id"
+    t.bigint "calculated"
+    t.bigint "by_hand"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "money_request_rows", force: :cascade do |t|
@@ -158,7 +170,7 @@ ActiveRecord::Schema.define(version: 2020_01_26_150006) do
   end
 
   create_table "money_transfers", force: :cascade do |t|
-    t.date "date"
+    t.date "doc_date"
     t.integer "safe_from_id"
     t.integer "safe_to_id"
     t.integer "amount"
@@ -167,6 +179,8 @@ ActiveRecord::Schema.define(version: 2020_01_26_150006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "money_transfer_type_id", default: 1
+    t.integer "o_from_id"
+    t.integer "o_to_id"
     t.index ["money_transfer_type_id"], name: "index_money_transfers_on_money_transfer_type_id"
     t.index ["user_id"], name: "index_money_transfers_on_user_id"
   end
@@ -236,6 +250,7 @@ ActiveRecord::Schema.define(version: 2020_01_26_150006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "safe_type_id"
+    t.boolean "actual", default: true
     t.index ["organisation_id"], name: "index_saves_on_organisation_id"
   end
 

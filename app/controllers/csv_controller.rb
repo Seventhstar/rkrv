@@ -1,5 +1,6 @@
 class CsvController < ApplicationController
   require 'csv'
+  before_action :logged_in_user
 
   def import_products
   end
