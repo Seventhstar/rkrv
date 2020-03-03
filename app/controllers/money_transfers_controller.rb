@@ -33,7 +33,6 @@ class MoneyTransfersController < ApplicationController
       
       fields.each do |col|
         c = col.include?(":") ? col.split(':')[0] : col.downcase
-        # wljkj
         h[c] = mt[c]
         if c.end_with?("_id")
           n = c[0..-4]
@@ -42,7 +41,7 @@ class MoneyTransfersController < ApplicationController
       end
       @json_data.push(h)
     end
-
+    
     respond_with(@money_transfers)
   end
 
@@ -52,8 +51,11 @@ class MoneyTransfersController < ApplicationController
 
   def new
     @money_transfer = MoneyTransfer.new
+    @is_admin = current_user.admin
     @money_transfer.doc_date = Date.today
-    @money_transfer.money_transfer_type = MoneyTransferType.find(params[:type]) if params[:type].present?
+    # @money_transfer.money_transfer_type = MoneyTransferType.find(params[:type]) if params[:type].present?
+    @money_transfer.money_transfer_type_id = 3 
+    # if @money_transfer.money_transfer_type.nil?
     @money_transfer.user = current_user
     respond_with(@money_transfer)
   end
@@ -90,6 +92,8 @@ class MoneyTransfersController < ApplicationController
       @safe_froms = Safe.order(:name)
       @organisations = Organisation.order(:name)
       @money_transfer_types = MoneyTransferType.order(:name) 
+      @safe_links = SafeLink.all
+      @user_safe = current_user.safe_id
       # puts "users: #{@users} #{@users.count}"
     end
 

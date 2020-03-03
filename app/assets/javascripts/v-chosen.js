@@ -11,13 +11,16 @@ Vue.component('v-chosen', {
         clearable: false
       }
     }, 
-    props: ['name', 'placeholder', 'label', 'src', 'selected', 
-            'owner', 'k', 'index', 'from_array', 'clear', 'input'],
+    props: ['name', 'placeholder', 'label', 'src', 
+            'readonly', 'selected', 
+            'owner', 'k', 'index', 'from_array', 
+            'clear', 'input'],
     template: `
         <div class="inp_w">
         <v-select 
           :value="$parent[name]"
           :options="options"
+          :disabled=readonly
           :clearable=clearable 
           :placeholder="placeholder"
           @input="onUpdate($event)">
@@ -74,11 +77,12 @@ Vue.component('v-chosen', {
           if (find.length > 0) {val = find[0]}
           else {this.$parent[this.name] = []; return}
         }
+        // console.log('onUpdate', this.name, val)
 
         let label = (v_nil(val)) ? undefined : val.label
 
         this.localValue = (v_nil(val)) ? 0 : val.value
-        if (typeof(val) == "object" && val == this.$parent[this.name]) return
+        // if (typeof(val) == "object" && val == this.$parent[this.name]) return
         this.$parent[this.name] = val
         this.$root.$emit('onInput', {value: this.localValue, key: this.k, index: this.index, name: this.name, label: label})
       },

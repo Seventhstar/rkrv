@@ -9,10 +9,11 @@ class MoneyCardController < ApplicationController
     @json_data     = []
 
     @current_month = Date.today.beginning_of_month 
-    @current_month = Date.parse(params['m']) if !params['m'].nil?
+    @current_month = Date.parse(params['month']) if !params['month'].nil?
+    puts "@current_month #{@current_month}"
 
 
-    start = Leftover.on_date(@current_month, s_id, o_id)
+    @start = Leftover.on_date(s_id, o_id, @current_month)
 
     out_e = Expense.where("date_trunc('month', date) = ? AND safe_id = ? AND organisation_id = (?)", 
                 @current_month, s_id, o_id)
@@ -31,7 +32,7 @@ class MoneyCardController < ApplicationController
 
     # puts "out_e #{out_e.length}, #{iin.length}"
 
-    @columns = %w"id doc_date doc_type amount from to user_id comment"
+    @columns = %w"id doc_date doc_type amount end_leftover from to user_id comment"
     fields  = %w"".concat(@columns)
 
 

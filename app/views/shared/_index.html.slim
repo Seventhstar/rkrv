@@ -11,11 +11,11 @@ div v-for="month in groupHeaders"
       li :key="item.id" v-for="item in grouped[month]" :out="item.out"
         div :class="tableClass('')" 
           div :class="tdClass(column, item[column[0]])" v-for="column in columns"
-            | {{ formatValue(item[column[0]], column[0]) }}
-          .edit_delete.td_right style="" v-if="item.editable"
+            | {{ formatValue(item, column[0]) }}
+          .edit_delete.td_right
             a.icon.icon_show :href="detailLink(item)" v-if="hasDetail(item)" target="_blank"
-            a.icon.icon_edit :href="editLink(item.id)"    
-            span.icon.icon_del @click="deleteRow(month, item)"
+            a.icon.icon_edit :href="editLink(item.id)" v-if="item.editable"
+            span.icon.icon_del @click="deleteRow(month, item)" v-if="item.editable"
 
     div :class="tableClass('grid_total')" 
       div :class="tdClass(column)" v-for="column, i in columns"  

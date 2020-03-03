@@ -37,7 +37,6 @@ class ExpensesController < ApplicationController
       comment: e.comment
     }}
 
-
     respond_with(@expenses)
   end
 
@@ -49,6 +48,7 @@ class ExpensesController < ApplicationController
     @expense = Expense.new
     @expense.date = Date.today
     @expense.user_id = current_user.id
+    @expense.safe_id = current_user.safe_id
     respond_with(@expense)
   end
 
@@ -80,6 +80,10 @@ class ExpensesController < ApplicationController
       @departments = Department.order(:name)
       @expense_types = ExpenseType.order(:name)
       @users = User.order(:username)
+
+      @salary_rows = @expense.expense_salary_rows.map{|s| { id: s.id,
+        staff: { label: s.staff_name, value: s.staff_id }, 
+        amount: s.amount, comment: s.comment, _destroy: false}} if @expense.present?
 
     end
 

@@ -10,13 +10,13 @@
           v-chosen name="money_transfer_type" placeholder="Тип перемещения..." :input="true"
 
           = f.label :safe_from
-          v-chosen name="safe_from" src="froms" placeholder="Откуда..." :input="true"
+          v-chosen name="safe_from" src="froms" placeholder="Откуда..." :input="true" :readonly="safeFromReadOnly"
 
           = f.label :o_from
           v-chosen name="o_from" src="o_froms" placeholder="ИП откуда..." :input="true"
 
           = f.label :safe_to
-          v-chosen name="safe_to" src="tos" placeholder="Куда..." :input="true"
+          v-chosen name="safe_to" src="tos" placeholder="Куда..." :input="true" :readonly="safeToReadOnly"
 
           = f.label :o_to
           v-chosen name="o_to" src="o_tos" placeholder="ИП куда..." :input="true"

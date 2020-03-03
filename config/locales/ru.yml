@@ -13,6 +13,8 @@ ru:
   from: Откуда
   to: Куда/На что
   id: '#'
+  sum_after_amount: Остаток
+  end_leftover: Остаток
 
   comment: Комментарий
   user_id: Ответственный

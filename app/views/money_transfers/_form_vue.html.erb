@@ -10,9 +10,13 @@
       tos: [],
       noteValid: '',
       currentUser: [],
+      safe_links: @safe_links,
+      SafeLinks: [],
+      safeToReadOnly: false,
+      safeFromReadOnly: false,
       formValid: false,
       filteredProjects: [],
-      texts: 'comment doc_date',
+      texts: 'comment doc_date user_safe is_admin',
       list_values: 'safe_from o_from o_to safe_to money_transfer_type user',
       lists: "safe_froms+organisation_id o_froms:@organisations \
               safes+safe_type_id,organisation_id \
@@ -31,7 +35,12 @@
 
     created(){
       this.currentUser = this.users.find(s => s.value == this.user.value)
-      setTimeout(() => this.filterAllSafes(), 100)
+      this.SafeLinks = _.groupBy(this.safe_links, 'to_id') 
+
+      setTimeout(() => {
+        this.filterAllSafes(false)
+        this.readyToChange = true
+      }, 100)
     },
 
     methods: {
@@ -42,10 +51,10 @@
       },
 
       filterFroms(safe_type_id, by_user_safe = false) {
-        this.froms.length = 0
+        if (safe_type_id >= 0) this.froms.length = 0
         froms = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id, by_user_safe)
         for (var s in froms) this.froms.push(froms[s])
-        if (by_user_safe)
+        if (by_user_safe && safe_type_id >= 0)
           this.safe_from = this.safe_froms.find(s => s.value == this.currentUser.safe)
       },
 
@@ -55,32 +64,90 @@
         for (var s in tos) this.tos.push(tos[s])
       },
 
-      filterAllSafes() {
+      safeFromIsOnlyUserSafe() {
+        this.filterFroms(-1, true)
+        this.safeFromReadOnly = true
+        this.safe_from = this.user_safe
+      },
+
+      filterAllSafes(clear = true) {
         let type = app.money_transfer_type.value
-        switch (type){
+        if (type == undefined) return
+
+        this.safeToReadOnly = false
+        this.safeFromReadOnly = false
+        switch (type) {
+          case 1:
+            if (this.is_admin) this.filterFroms(2)
+            else this.safeFromIsOnlyUserSafe()
+
+            this.filterTos(4)
+            this.safe_to = 97 // Главный сейф
+            this.safeToReadOnly = true
+            break;
           case 2:
-            this.filterFroms(1, true)
+            if (this.is_admin) this.filterFroms(2)
+            else this.safeFromIsOnlyUserSafe()
+
             this.filterTos(3)
+            this.safe_to = 154 // Расч. счет
+            this.safeToReadOnly = true
             break;
           case 3:
-            this.filterFroms(1)
+            if (this.readyToChange) this.safe_from = undefined
+            // if (!this.is_admin) this.filterFroms(1)  
             this.filterTos(2)
-            let a = this.safe_tos.find(s => s.value == this.currentUser.safe)
-            this.safe_to = a
-          break;
+            this.safe_to = this.user_safe
+            break;
+          case 4:
+            this.filterFroms(4)
+            this.safe_from = 97 // Главный сейф
+            this.safeFromReadOnly = true
+
+            this.filterTos(1, true)
+            this.safe_to = this.user_safe 
+          case 5:
+            this.filterTos(2)
+            this.safe_to = this.user_safe
+            break;
+          case 6:
+            this.filterFroms(4)
+            this.safeFromReadOnly = true
+            this.safe_from = 116 // малый сейф
+            break;
+
           default:
             this.filterFroms(0)
             this.filterTos(0)
         }
       },
 
+      fillToSafesFromLinks(from_id) {
+        let links = this.SafeLinks[from_id]
+        this.froms.length = 0
+        if (links != undefined && links.length > 0) {
+          for (sl in links) {
+            let sfs = this.safes.filter((s) => s.value == links[sl].from_id)
+            for (s in sfs) {this.froms.push(sfs[s])}
+          }
+        }
+        if (this.froms.length == 0) this.filterFroms(1, true)
+      },
+
       onInput(e) {
+        // console.log('onInput(e)', e.name, this.money_transfer_type)
         if (e == undefined) return
         if (e.name == 'money_transfer_type' || e.name == 'user') {
           this.filterAllSafes()
-        } else if (e.name == 'safe_from') {
+        } else if (e.name == 'safe_from' && this.safe_from != undefined 
+                          && this.readyToChange) {
           this.o_from = this.safe_from.organisation_id
           this.o_to = this.safe_from.organisation_id
+        } else if (e.name == 'safe_to' && this.money_transfer_type != undefined 
+                    && this.money_transfer_type.value == 3) {
+            if (this.is_admin) this.filterFroms(1)
+            else this.fillToSafesFromLinks(this.safe_to.value)
+          
         }
 
 

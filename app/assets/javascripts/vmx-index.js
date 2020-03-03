@@ -1,6 +1,7 @@
 var m_index = {
   created(){
     this.fGroup()
+    this.end_leftover = this.start_leftover    
   },
 
   computed: {
@@ -122,6 +123,7 @@ var m_index = {
     },
   
     sortBy(sortKey, month) {
+      this.end_leftover = this.start_leftover
       if (sortKey == 'date') sortKey = 'sortdate'
       this.reverse = (this.sortKey == sortKey) ? !this.reverse : false
       this.sortKey = sortKey;
@@ -210,21 +212,23 @@ var m_index = {
     },
 
     isAmountColumn(column) {
-       ints = this.integers == undefined ? ['amount'] : ['amount'].concat(this.integers)
+       ints = this.integers == undefined ? ['amount'] : ['amount', 'end_leftover'].concat(this.integers)
        return ints.indexOf(column)>-1
     },
 
     tdClass(column, value){
       let is_amount = this.isAmountColumn(column[0])
-
-
       return 'td ' + (is_amount ? 'td_right' : '') + 
               (is_amount && value < 0 ? ' red' : '' )
     },
 
-    formatValue(value, column){
-      // ints = this.integers == undefined ? ['amount'] : ['amount'].concat(this.integers)
-      // console.log('ints', ints, 'ints.indexOf(column)', ints.indexOf(column))
+    formatValue(item, column) {
+      if (column == 'end_leftover') {
+        let sum = this.end_leftover + item['amount']
+        this.end_leftover = sum
+        return toSum(sum)
+      }
+      value = item[column]
       if (column.indexOf('date') > -1) return format_date(value)
       return this.isAmountColumn(column) ? toSum(value) : value
     },
@@ -237,12 +241,14 @@ var m_index = {
 
     fCalcTotal(m, column = '', i = 0){
       if (i == 0) return 'Итого:'
+        // console.log('column', column[0])
+      if (column[0] == 'end_leftover') return toSum(this.end_leftover)
       if (this.grouped[m] == undefined) return ''
-      if (this.isAmountColumn(column[0]) || column == 'amount'){
+      if (this.isAmountColumn(column[0]) || column == 'amount') {
         let total = this.grouped[m].reduce((sum, current) => sum + current[column[0]], 0)
         return toSum(total)
       }
-      console.log('column', column, this.isAmountColumn(column))
+      // console.log('column', column, this.isAmountColumn(column))
       return ''
     },
 

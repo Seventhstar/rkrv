@@ -23,15 +23,9 @@ class LeftoversController < ApplicationController
     Safe.where(_where).each.collect{ |s|
       @organisations.each.collect{ |o|
 
-        start = Leftover.on_date(@current_month, s.id, o.id)
-        out   = Expense.where("date_trunc('month', date) = ? AND safe_id = ? AND organisation_id = (?)", 
-                    @current_month, s.id, o.id).sum(:amount) + 
-
-                MoneyTransfer.where("date_trunc('month', doc_date) = ? AND safe_from_id = ? AND o_from_id = (?)", 
-                    @current_month, s.id, o.id).sum(:amount)
-        # iin   = 0
-        iin   = MoneyTransfer.where("date_trunc('month', doc_date) = ? AND safe_to_id = ? AND o_to_id = (?)", 
-                    @current_month, s.id, o.id).sum(:amount)
+        start = Leftover.on_date(s.id, o.id, @current_month)
+        out   = Leftover.out(s.id, o.id, @current_month) 
+        iin   = Leftover.in(s.id, o.id, @current_month)  
 
         iend  = start[:amount] + iin - out
 
@@ -45,7 +39,7 @@ class LeftoversController < ApplicationController
           in: iin, 
           out: out,
           editable: is_admin? && id>0,
-          detail_link: money_card_index_path(o_id: o.id, s_id: s.id),
+          detail_link: money_card_index_path(o_id: o.id, s_id: s.id, month: @current_month),
           end: iend
         })
       }
