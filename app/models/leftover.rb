@@ -6,29 +6,45 @@ class Leftover < ApplicationRecord
     last = Leftover.where('safe_id = ? AND organisation_id = ? AND date <= ?', 
                            safe_id, organisation_id, date.end_of_day).maximum(:date)
 
-    # d = Leftover.where("date_trunc('month', date) = ? AND safe_id = ? AND organisation_id = ?",
-    #             date, safe_id, organisation_id)
-    
     d = Leftover.where("date = ? AND safe_id = ? AND organisation_id = ?",
                          last, safe_id, organisation_id)
 
+    if !last.present?
+      last = Date.new(2020,1,31)
+      d    = 0
+    end
+
     if last.present? && last < date 
-      _out = self.out(safe_id, organisation_id, last, date)
-      _in = self.in(safe_id, organisation_id, last, date)
+      _out = self.out(safe_id, organisation_id, last, date).to_i
+      _in = self.in(safe_id, organisation_id, last, date).to_i
     else
       _out = 0 
       _in  = 0 
     end
 
-    puts "last #{last}, d #{d.length}"
-    if d.length > 0 
-      # wejhk
+    result = 0
+    if !d.is_a?(Integer) && d.length > 0
+      bh = d.first.by_hand.nil? ? 0 : d.first.by_hand
+      result = (bh) > 0 ? d.first.by_hand : d.first.calculated 
+      id = d.first&.id
+    end
+      
+    if date == date.beginning_of_month && last.to_date != date-1.day && last.to_date != date
+      end_of_last_month = date-1.day
+      _out = self.out(safe_id, organisation_id, last, end_of_last_month).to_i
+      _in = self.in(safe_id, organisation_id, last, end_of_last_month).to_i
+
+      new_lo = d.is_a?(Integer) ? d : (d.first.by_hand.to_i > 0 ? d.first.by_hand : d.first.calculated)
+      new_lo = new_lo + _in - _out
+
+      if new_lo>0
+        l = Leftover.create({safe_id: safe_id, organisation_id: organisation_id, calculated: new_lo, date: end_of_last_month}) 
+        id = l.id
+      end
     end
 
-    result = 0
-    result = d.first.by_hand > 0 ? d.first.by_hand : d.first.calculated if (d.length>0)
-    result = result - _out + _in
-    result = {id: d.first&.id, amount: result} 
+    result = result.to_i - _out.to_i + _in.to_i
+    result = {id: id, amount: result} 
   end
 
   def self.out(safe_id, organisation_id, date_from, date_to = nil)

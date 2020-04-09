@@ -15,6 +15,13 @@ ru:
   id: '#'
   sum_after_amount: Остаток
   end_leftover: Остаток
+  organisation: Организация
+  expense_type: Тип расхода
+  department: Подразделение
+  o_to: Организация (куда)
+  o_from: Организация (откуда)
+  safe_from: Сейф (откуда)
+  safe_to: Сейф (куда)
 
   comment: Комментарий
   user_id: Ответственный

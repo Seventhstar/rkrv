@@ -10,11 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_090507) do
+ActiveRecord::Schema.define(version: 2020_04_09_091608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "accounts_links", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "safe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -190,6 +197,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_090507) do
     t.string "code1c"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "actual", default: true
   end
 
   create_table "product_leftovers", force: :cascade do |t|
@@ -251,6 +259,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_090507) do
     t.datetime "updated_at", null: false
     t.integer "safe_type_id"
     t.boolean "actual", default: true
+    t.integer "owner_id"
     t.index ["organisation_id"], name: "index_saves_on_organisation_id"
   end
 

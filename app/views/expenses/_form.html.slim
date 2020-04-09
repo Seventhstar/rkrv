@@ -7,24 +7,25 @@
           div
             .left
               v-date name="date"
-            .left style="width: 298px;"
-              .left
-                = f.label "ИП", {style: "width: 40px; margin-right: 5px"}
-              .left style="width: 253px;"
-                v-chosen name="organisation" :input="true"
-
 
           = f.label :expense_type
           v-chosen name="expense_type" placeholder="Тип расхода..." :input="true"
 
-          = f.label :amount
-          = f.number_field :amount
-
           = f.label :safe
           v-chosen name="safe" placeholder="Сейф..." :input="true"
-  
+
           = f.label :department
           v-chosen name="department" placeholder="Подразделение..." :input="true" :readonly="departmentReadOnly"
+
+          = f.label :amount
+          div 
+            .left 
+              = f.number_field :amount, "v-model":"amount"
+            .left style="width: 298px;"
+              .left
+                = f.label "ИП", {style: "width: 40px; margin-right: 5px"}
+              .left style="width: 253px;"
+                v-chosen name="organisation" :input="true"  
     
           = f.label :comment
           = f.text_field :comment
@@ -33,12 +34,10 @@
           v-chosen name="user" placeholder="Ответственный..." :input="true"
 
           div
-          .actions 
-            = f.submit
+          / .actions 
+          = submit_cancel expenses_path, {classValid: "!formValid", tip: 'noteValid', click: 'onSubmit'}
       .panel_right.w60
         #e_rows.salary.before_30
-          / = render 'salary_rows'
-
 
   transition name="appear"
     confirmation-modal :text="confirmText" v-if='confirmModal'

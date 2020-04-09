@@ -16,6 +16,14 @@ class MoneyTransfer < ApplicationRecord
     self.safe_to&.name
   end
 
+  def o_from_code1c
+    self.o_from&.code1c
+  end
+
+  def o_to_code1c
+    self.o_to&.code1c
+  end
+
   def date
     self.doc_date
   end

@@ -13,10 +13,20 @@ class User < ActiveRecord::Base
   # has_many :roles
   has_many :user_roles
   has_many :roles, through: :user_roles #class_name: "UserRole", foreign_key: :user_id
-  accepts_nested_attributes_for :roles
+  has_many :safes, foreign_key: :owner_id
 
-  belongs_to :safe, optional: true
+  # has_many :accounts, foreign_key: :user_id, class_name: "AccountsLink"
+
+  has_many :accounts_links, class_name: 'AccountsLink', foreign_key: :user_id
+  has_many :accounts, through: :accounts_links
+
+
+  accepts_nested_attributes_for :roles
+  # accepts_nested_attributes_for :safes
+
+  # belongs_to :safe, optional: true
   validates :password, length: { minimum: 6 }, allow_blank: true
+  # has_many :safes, foreign_key: :user_id
 
   scope :actual,  -> {where(approved: true).order(:username)}
 

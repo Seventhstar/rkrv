@@ -18,7 +18,7 @@ class LeftoversController < ApplicationController
     @json_date     = []
 
     _where = {safe_type_id: 2, actual: true}
-    _where[:id] = current_user.safe_id if just_manager?
+    _where[:id] = current_user.safes.pluck(:id) if just_manager?
 
     Safe.where(_where).each.collect{ |s|
       @organisations.each.collect{ |o|

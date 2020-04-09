@@ -12,7 +12,7 @@ class MoneyTransfersController < ApplicationController
     if params[:date_start].present? && params[:date_end].present?
       dt_start = Date.parse(params[:date_start])
       dt_end   = Date.parse(params[:date_end])
-      @money_transfers = MoneyTransfer.where('date >= ? and date <= ?', dt_start, dt_end)
+      @money_transfers = MoneyTransfer.where('doc_date >= ? and doc_date <= ?', dt_start, dt_end)
     else
       @money_transfers = MoneyTransfer.all
     end
@@ -53,9 +53,7 @@ class MoneyTransfersController < ApplicationController
     @money_transfer = MoneyTransfer.new
     @is_admin = current_user.admin
     @money_transfer.doc_date = Date.today
-    # @money_transfer.money_transfer_type = MoneyTransferType.find(params[:type]) if params[:type].present?
     @money_transfer.money_transfer_type_id = 3 
-    # if @money_transfer.money_transfer_type.nil?
     @money_transfer.user = current_user
     respond_with(@money_transfer)
   end
@@ -77,7 +75,6 @@ class MoneyTransfersController < ApplicationController
 
   def destroy
     if @money_transfer.destroy
-    # respond_with(@money_transfer)
       head 200, content_type: "text/html"
     else
     end
@@ -86,15 +83,17 @@ class MoneyTransfersController < ApplicationController
   private
     def def_values
       @users = User.order(:username).map{|u| {id: u.id, name: u.username.present? ? u.username : u.email, safe: u.safe_id}}
-      #puts "@users #{@users}"
       @safes = Safe.actual.order(:name)
       @safe_tos = Safe.actual.order(:name)
       @safe_froms = Safe.order(:name)
-      @organisations = Organisation.order(:name)
+      @organisations = Organisation.actual.order(:name)
       @money_transfer_types = MoneyTransferType.order(:name) 
       @safe_links = SafeLink.all
-      @user_safe = current_user.safe_id
-      # puts "users: #{@users} #{@users.count}"
+
+      if current_user.present?
+        @user_safe = current_user.safe_id
+        @owned_safes = current_user.safes + current_user.accounts
+      end
     end
 
     def set_money_transfer

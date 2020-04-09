@@ -12,9 +12,12 @@
           = f.label 'Организация'
           v-chosen name="organisation" placeholder="Организация..." :input="true"
 
-          = f.label 'Текущий остаток'
+          = f.label 'Ручной остаток'
           = f.number_field :by_hand
 
+          = f.label 'Расчетный остаток'
+          = @leftover.calculated
+      
           div
           .actions 
             = f.submit

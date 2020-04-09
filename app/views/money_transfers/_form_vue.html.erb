@@ -4,39 +4,44 @@
 
   let app = new Vue({
     el: '.vue_app',
+    mixins: [m_created],
     data: <%= fill_vue_data(@money_transfer, {
       model: 'money_transfer',
       froms: [],
       tos: [],
       noteValid: '',
+      amount: @money_transfer.amount,
       currentUser: [],
       safe_links: @safe_links,
       SafeLinks: [],
       safeToReadOnly: false,
       safeFromReadOnly: false,
       formValid: false,
+      
       filteredProjects: [],
+      required_list: 'safe_from o_from o_to safe_to money_transfer_type user amount',
+
       texts: 'comment doc_date user_safe is_admin',
       list_values: 'safe_from o_from o_to safe_to money_transfer_type user',
       lists: "safe_froms+organisation_id o_froms:@organisations \
               safes+safe_type_id,organisation_id \
-              o_tos:@organisations \
+              o_tos:@organisations owned_safes+safe_type_id,organisation_id\
               safe_tos+organisation_id money_transfer_types users+safe"
     })
     %>,
+      // owned_safes: @owned_safes,
     
-    updated(){
-      this.onInput();
+    updated() {
+      this.onInput()
     },
 
-    mounted(){
+    mounted() {
       this.$root.$on('onInput', this.onInput)
     },
 
-    created(){
+    created() {
       this.currentUser = this.users.find(s => s.value == this.user.value)
-      this.SafeLinks = _.groupBy(this.safe_links, 'to_id') 
-
+      this.SafeLinks   = _.groupBy(this.safe_links, 'to_id') 
       setTimeout(() => {
         this.filterAllSafes(false)
         this.readyToChange = true
@@ -44,28 +49,53 @@
     },
 
     methods: {
+      // getOwnedSafes(){
+      //               let currentSafes = []
+      //       if (this.owned_safes != undefined && this.owned_safes.length) 
+      //         currentSafes = this.safes.filter(s => this.owned_safes.includes(s.value))
+      // },
+
       filterSafes(safe_type_id, by_user_safe = false) {
         if (by_user_safe) {
           return this.safes.filter(s => s.safe_type_id == safe_type_id || s.value == this.currentUser.safe)}
         return this.safes.filter(s => s.safe_type_id == safe_type_id)
       },
 
-      filterFroms(safe_type_id, by_user_safe = false) {
+      filterFroms(safe_type_id, list = undefined, by_user_safe = false) {
+        let froms = []
+
         if (safe_type_id >= 0) this.froms.length = 0
-        froms = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id, by_user_safe)
+
+        if (typeof(list) == 'object' && list.length > 0) {
+          froms = list.filter(s => s.safe_type_id == safe_type_id)
+          this.froms.length = 0
+        } else
+          froms = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id, by_user_safe)
+
+        // console.log('froms', froms)
+
         for (var s in froms) this.froms.push(froms[s])
         if (by_user_safe && safe_type_id >= 0)
           this.safe_from = this.safe_froms.find(s => s.value == this.currentUser.safe)
       },
 
-      filterTos(safe_type_id) {
+      filterTos(safe_type_id, list = undefined) {
+        let tos = []
         this.tos.length = 0
-        tos = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id)
+        if (typeof(list) == 'object' && list.length > 0) {
+          tos = list.filter(s => s.safe_type_id == safe_type_id)
+        }
+        else
+          tos = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id)
+
         for (var s in tos) this.tos.push(tos[s])
       },
 
-      safeFromIsOnlyUserSafe() {
-        this.filterFroms(-1, true)
+      safeFromIsOnlyUserSafe(safe_type_id = 2) {
+        let selected = this.owned_safes.filter(s => s.safe_type_id == safe_type_id)
+        // console.log('selected', selected)
+        // this.filterFroms(-1, selected, true)
+        this.filterFroms(safe_type_id, selected, true)
         this.safeFromReadOnly = true
         this.safe_from = this.user_safe
       },
@@ -76,42 +106,49 @@
 
         this.safeToReadOnly = false
         this.safeFromReadOnly = false
+        // console.log('filterAllSafes type', type)
         switch (type) {
           case 1:
             if (this.is_admin) this.filterFroms(2)
             else this.safeFromIsOnlyUserSafe()
-
             this.filterTos(4)
             this.safe_to = 97 // Главный сейф
             this.safeToReadOnly = true
+            this.safeFromReadOnly = false
             break;
+          
           case 2:
-            if (this.is_admin) this.filterFroms(2)
-            else this.safeFromIsOnlyUserSafe()
-
-            this.filterTos(3)
-            this.safe_to = 154 // Расч. счет
-            this.safeToReadOnly = true
+            if (this.is_admin) this.filterFroms(2, this.owned_safes)
+            else this.safeFromIsOnlyUserSafe(2)
+            this.filterTos(3, this.owned_safes)
+            // this.safe_to = 154 // Расч. счет
+            // this.safeToReadOnly = true
+            this.safeFromReadOnly = false
             break;
+          
           case 3:
             if (this.readyToChange) this.safe_from = undefined
-            // if (!this.is_admin) this.filterFroms(1)  
-            this.filterTos(2)
-            this.safe_to = this.user_safe
+            this.tos.length = 0
+            this.filterTos(2, this.owned_safes)
+            if (this.user_safe != undefined) this.safe_to = this.user_safe
             break;
+
           case 4:
             this.filterFroms(4)
             this.safe_from = 97 // Главный сейф
             this.safeFromReadOnly = true
-
-            this.filterTos(1, true)
+            this.filterTos(1, this.owned_safes)
             this.safe_to = this.user_safe 
+            break;
+
           case 5:
-            this.filterTos(2)
+            this.filterTos(2, this.owned_safes)
             this.safe_to = this.user_safe
             break;
+
           case 6:
             this.filterFroms(4)
+            this.filterTos(2, this.owned_safes)
             this.safeFromReadOnly = true
             this.safe_from = 116 // малый сейф
             break;
@@ -127,7 +164,7 @@
         this.froms.length = 0
         if (links != undefined && links.length > 0) {
           for (sl in links) {
-            let sfs = this.safes.filter((s) => s.value == links[sl].from_id)
+            let sfs = this.safes.filter(s => s.value == links[sl].from_id)
             for (s in sfs) {this.froms.push(sfs[s])}
           }
         }
@@ -135,22 +172,31 @@
       },
 
       onInput(e) {
-        // console.log('onInput(e)', e.name, this.money_transfer_type)
+        this.checkValid()
         if (e == undefined) return
+
+        if (e.name.includes('safe') && e.value != 0 && e.value != undefined){
+          // console.log('safe selected', e.value)
+          if (e.name == 'safe_from') {
+            this.o_from = this.safe_from.organisation_id
+          } else {
+            this.o_to = this.safe_to.organisation_id
+          }
+        }
+
         if (e.name == 'money_transfer_type' || e.name == 'user') {
           this.filterAllSafes()
-        } else if (e.name == 'safe_from' && this.safe_from != undefined 
-                          && this.readyToChange) {
-          this.o_from = this.safe_from.organisation_id
-          this.o_to = this.safe_from.organisation_id
-        } else if (e.name == 'safe_to' && this.money_transfer_type != undefined 
+        // } 
+        // else if (e.name == 'safe_from' && this.safe_from != undefined 
+                          // && this.readyToChange) {
+          // this.o_from = this.safe_from.organisation_id
+          // this.o_to = this.safe_from.organisation_id
+        } else if (e.name == 'safe_to' 
+                    && this.money_transfer_type != undefined 
                     && this.money_transfer_type.value == 3) {
             if (this.is_admin) this.filterFroms(1)
             else this.fillToSafesFromLinks(this.safe_to.value)
-          
         }
-
-
       }
     }
     

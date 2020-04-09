@@ -4,19 +4,22 @@
 
   let app = new Vue({
     el: '.vue_app',
+    mixins: [m_created],
     data: <%= fill_vue_data(@expense, {
       model: 'expense',
       noteValid: '',
-      rowValid: false,
+      amount: @expense.amount,
       formValid: false,
       confirmModal: false,
       departmentReadOnly: false,
       filteredProjects: [],
       readyToChange: false,
+      required_list: "safe organisation expense_type department user amount",
       confirmText: 'Изменить организацию на',
-      texts: 'comment date new_comment new_amount',
+      texts: 'comment date new_comment new_amount user_safe',
       list_values: 'safe organisation expense_type department user staff',
-      lists: "safes organisations expense_types departments+organisation_id users staffs",
+      lists: "safes all_safes:@safes organisations expense_types departments+organisation_id users staffs",
+      owned_safes: @owned_safes,
       salary_rows: @salary_rows 
 
     }) %>,
@@ -26,13 +29,28 @@
     },
 
     mounted() {
+      this.$root.$on('modalYes', this.onYes)
       this.$root.$on('onInput', this.onInput)
       this.$root.$on('modalCancel', this.onCancel)
-      this.$root.$on('modalYes', this.onYes)
-      setTimeout(() => this.readyToChange = true, 50)
+      setTimeout(() => {
+        this.filterSafes(false)
+        this.readyToChange = true
+      }, 50)
     },
 
     methods: {
+      filterSafes(safe_type_id, by_user_safe = false) {
+        let currentSafes = []
+        if (this.owned_safes != undefined && this.owned_safes.length) 
+          currentSafes = this.all_safes.filter(s => this.owned_safes.includes(s.value))
+
+        // if (currentSafes.length == 0) currentSafes = this.all_safes.filter(s => s.value == user_safe)
+        if (currentSafes.length > 0){
+          this.safes.length = 0
+          for (var s in currentSafes) this.safes.push(currentSafes[s])
+        }
+      },
+
       row_field(index, field) {
         return "expense[expense_salary_rows_attributes]["+index+"]["+field+']'
       },
@@ -70,6 +88,7 @@
       },
 
       onInput(e) {
+        this.checkValid()
         if (e == undefined) return
         if (e.name == 'department' && this.readyToChange 
               && this.department.organisation_id != this.organisation.value) {
@@ -81,10 +100,10 @@
           this.departmentReadOnly = false
           if (this.expense_type == undefined) return
           switch (this.expense_type.value) {
-            case 8:
-            case 2:
-            case 1: 
-              this.department = 41 // if 05 - отдел продаж
+            case 8: // 12 Прочие расходы УПР
+            case 2: // 05 Транспортные расходы УПР
+            case 1: // 04 Нужды УПР
+              this.department = 41 // только отдел продаж
               this.departmentReadOnly = true
           }
         }

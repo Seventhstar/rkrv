@@ -1,5 +1,5 @@
 ActiveAdmin.register SafeType do
-  menu parent: "Структура", label: 'Типы сейфов'
+  menu parent: "Структура", label: 'Типы мест хранения'
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #

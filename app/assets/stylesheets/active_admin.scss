@@ -17,7 +17,10 @@
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
-
+.v-select.disabled .open-indicator {
+  // margin-top: 1px;
+  background-color: transparent !important;
+}
 #header li.menu_item.m_icon a {
     display: inline-block;
     line-height: 36px;

@@ -76,15 +76,17 @@ class ExpensesController < ApplicationController
   private
     def def_values
       @safes = Safe.order(:name)
-      @organisations = Organisation.order(:name)
+      @users = User.order(:username)
+      @organisations = Organisation.actual.order(:name)
       @departments = Department.order(:name)
       @expense_types = ExpenseType.order(:name)
-      @users = User.order(:username)
-
-      @salary_rows = @expense.expense_salary_rows.map{|s| { id: s.id,
-        staff: { label: s.staff_name, value: s.staff_id }, 
-        amount: s.amount, comment: s.comment, _destroy: false}} if @expense.present?
-
+      if current_user.present?
+        @owned_safes = current_user.safes.pluck(:id)
+        @user_safe = current_user.safe_id
+        @salary_rows = @expense.expense_salary_rows.map{|s| { id: s.id,
+          staff: { label: s.staff_name, value: s.staff_id }, 
+          amount: s.amount, comment: s.comment, _destroy: false}} if @expense.present?
+      end
     end
 
     def set_expense
