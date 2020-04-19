@@ -10,12 +10,13 @@ class SessionsController < ApplicationController
   end
   
   def create
-
+    # puts "request.format #{request.format} - #{request.format == 'application/json'}"
     if request.format == 'application/json'
       user = User.find_by(email: params[:email])
+
       if user && user.authenticate(params[:password])
+        # puts "user1 #{user.as_json}"
       # if success
-        # puts "user #{user.as_json}"
         current_user = user
         render json: user.as_json(only: [:email, :token]), status: :created  
       else
@@ -42,7 +43,7 @@ class SessionsController < ApplicationController
           end
         else
           message  = "Аккаунт не активирован. "
-          puts "message #{message}"
+          # puts "message #{message}"
   #        message += "Проверьте свой почтовый ящик на наличие ссылки активации."
           flash[:warning] = message
           redirect_to root_url

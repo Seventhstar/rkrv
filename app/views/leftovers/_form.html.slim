@@ -15,6 +15,9 @@
           = f.label 'Ручной остаток'
           = f.number_field :by_hand
 
+          = f.label 'Принудительно (ставить галку, если нужен остаток 0)'
+          = f.check_box :forced
+
           = f.label 'Расчетный остаток'
           = @leftover.calculated
       

@@ -14,7 +14,7 @@ div v-for="month in groupHeaders"
             | {{ formatValue(item, column[0]) }}
           .edit_delete.td_right
             a.icon.icon_show :href="detailLink(item)" v-if="hasDetail(item)" target="_blank"
-            a.icon.icon_edit :href="editLink(item.id)" v-if="item.editable"
+            a.icon.icon_edit :href="editLink(item)" v-if="item.editable" target="_blank"
             span.icon.icon_del @click="deleteRow(month, item)" v-if="item.editable"
 
     div :class="tableClass('grid_total')" 

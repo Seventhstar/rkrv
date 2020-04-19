@@ -22,15 +22,13 @@
       required_list: 'safe_from o_from o_to safe_to money_transfer_type user amount',
 
       texts: 'comment doc_date user_safe is_admin',
-      list_values: 'safe_from o_from o_to safe_to money_transfer_type user',
+      list_values: 'safe_from o_from safe_to o_to money_transfer_type user',
       lists: "safe_froms+organisation_id o_froms:@organisations \
               safes+safe_type_id,organisation_id \
               o_tos:@organisations owned_safes+safe_type_id,organisation_id\
               safe_tos+organisation_id money_transfer_types users+safe"
-    })
-    %>,
-      // owned_safes: @owned_safes,
-    
+    }) %>,
+
     updated() {
       this.onInput()
     },
@@ -40,21 +38,14 @@
     },
 
     created() {
+      // console.log('this.safe_from', this.safe_from)
       this.currentUser = this.users.find(s => s.value == this.user.value)
       this.SafeLinks   = _.groupBy(this.safe_links, 'to_id') 
-      setTimeout(() => {
-        this.filterAllSafes(false)
-        this.readyToChange = true
-      }, 100)
+      setTimeout(() => {this.filterAllSafes(false)}, 100)
+      setTimeout(() => {this.readyToChange = true}, 200)
     },
 
     methods: {
-      // getOwnedSafes(){
-      //               let currentSafes = []
-      //       if (this.owned_safes != undefined && this.owned_safes.length) 
-      //         currentSafes = this.safes.filter(s => this.owned_safes.includes(s.value))
-      // },
-
       filterSafes(safe_type_id, by_user_safe = false) {
         if (by_user_safe) {
           return this.safes.filter(s => s.safe_type_id == safe_type_id || s.value == this.currentUser.safe)}
@@ -72,11 +63,8 @@
         } else
           froms = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id, by_user_safe)
 
-        // console.log('froms', froms)
-
         for (var s in froms) this.froms.push(froms[s])
-        if (by_user_safe && safe_type_id >= 0)
-          this.safe_from = this.safe_froms.find(s => s.value == this.currentUser.safe)
+        if (this.froms.length == 1) this.safe_from = this.froms[0]
       },
 
       filterTos(safe_type_id, list = undefined) {
@@ -87,17 +75,21 @@
         }
         else
           tos = safe_type_id == 0 ? this.safes : this.filterSafes(safe_type_id)
+        // console.log('filterTos', app.money_transfer_type.value, this.safe_to)
 
         for (var s in tos) this.tos.push(tos[s])
+        if (this.tos.length == 1) this.safe_to = this.tos[0]
       },
 
       safeFromIsOnlyUserSafe(safe_type_id = 2) {
+        // console.log('this.safe_from 2.1', this.safe_from)
+
         let selected = this.owned_safes.filter(s => s.safe_type_id == safe_type_id)
         // console.log('selected', selected)
         // this.filterFroms(-1, selected, true)
         this.filterFroms(safe_type_id, selected, true)
+        // console.log('this.safe_from 2.2', this.safe_from)
         this.safeFromReadOnly = true
-        this.safe_from = this.user_safe
       },
 
       filterAllSafes(clear = true) {
@@ -106,7 +98,7 @@
 
         this.safeToReadOnly = false
         this.safeFromReadOnly = false
-        // console.log('filterAllSafes type', type)
+
         switch (type) {
           case 1:
             if (this.is_admin) this.filterFroms(2)
@@ -121,29 +113,31 @@
             if (this.is_admin) this.filterFroms(2, this.owned_safes)
             else this.safeFromIsOnlyUserSafe(2)
             this.filterTos(3, this.owned_safes)
-            // this.safe_to = 154 // Расч. счет
-            // this.safeToReadOnly = true
             this.safeFromReadOnly = false
             break;
           
           case 3:
             if (this.readyToChange) this.safe_from = undefined
+
+            //this.filterFroms(1, this.owned_safes)
             this.tos.length = 0
             this.filterTos(2, this.owned_safes)
-            if (this.user_safe != undefined) this.safe_to = this.user_safe
+            if (this.safe_to != undefined) this.fillToSafesFromLinks(this.safe_to.value)
+            // if (this.user_safe != undefined) this.safe_to = this.user_safe
             break;
 
           case 4:
             this.filterFroms(4)
             this.safe_from = 97 // Главный сейф
             this.safeFromReadOnly = true
-            this.filterTos(1, this.owned_safes)
-            this.safe_to = this.user_safe 
+            if (this.readyToChange) this.safe_to = undefined
+            this.filterTos(2, this.owned_safes)
+            //this.safe_to = this.user_safe 
             break;
 
           case 5:
             this.filterTos(2, this.owned_safes)
-            this.safe_to = this.user_safe
+            // this.safe_to = this.user_safe
             break;
 
           case 6:
@@ -160,6 +154,7 @@
       },
 
       fillToSafesFromLinks(from_id) {
+        // console.log('fillToSafesFromLinks', this.readyToChange)
         let links = this.SafeLinks[from_id]
         this.froms.length = 0
         if (links != undefined && links.length > 0) {
@@ -173,10 +168,10 @@
 
       onInput(e) {
         this.checkValid()
-        if (e == undefined) return
+        // console.log('this.readyToChange', this.readyToChange, e)
+        if (e == undefined || !this.readyToChange) return
 
         if (e.name.includes('safe') && e.value != 0 && e.value != undefined){
-          // console.log('safe selected', e.value)
           if (e.name == 'safe_from') {
             this.o_from = this.safe_from.organisation_id
           } else {
@@ -184,16 +179,10 @@
           }
         }
 
-        if (e.name == 'money_transfer_type' || e.name == 'user') {
+        if ((e.name == 'money_transfer_type' || e.name == 'user')) {
           this.filterAllSafes()
-        // } 
-        // else if (e.name == 'safe_from' && this.safe_from != undefined 
-                          // && this.readyToChange) {
-          // this.o_from = this.safe_from.organisation_id
-          // this.o_to = this.safe_from.organisation_id
-        } else if (e.name == 'safe_to' 
-                    && this.money_transfer_type != undefined 
-                    && this.money_transfer_type.value == 3) {
+        } else if (e.name == 'safe_to' && this.money_transfer_type != undefined 
+                                       && this.money_transfer_type.value == 3) {
             if (this.is_admin) this.filterFroms(1)
             else this.fillToSafesFromLinks(this.safe_to.value)
         }

@@ -1,6 +1,9 @@
 class MoneyCardController < ApplicationController
   before_action :logged_in_user
   include DatesHelper
+  include RolesHelper
+  include AccessHelper
+
 
   def index
     s_id  = params[:s_id]
@@ -52,6 +55,8 @@ class MoneyCardController < ApplicationController
           to: d.to,
           amount: d.amount*factor,
           user: d.user&.name,
+          editable: allow_edit(d, d.date),
+          controller_name: d.class.name.underscore.pluralize,
           comment: d.comment
         })
         # wefk

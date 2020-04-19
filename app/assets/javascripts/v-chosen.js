@@ -77,7 +77,7 @@ Vue.component('v-chosen', {
           if (find.length > 0) {val = find[0]}
           else {this.$parent[this.name] = []; return}
         }
-        // console.log('onUpdate', this.name, val)
+        console.log('onUpdate', this.name, val)
 
         let label = (v_nil(val)) ? undefined : val.label
 

@@ -14,7 +14,7 @@ class Leftover < ApplicationRecord
       d    = 0
     end
 
-    if last.present? && last < date 
+    if last.present? && last.to_date != date-1.day && last.to_date != date
       _out = self.out(safe_id, organisation_id, last, date).to_i
       _in = self.in(safe_id, organisation_id, last, date).to_i
     else
@@ -24,17 +24,19 @@ class Leftover < ApplicationRecord
 
     result = 0
     if !d.is_a?(Integer) && d.length > 0
-      bh = d.first.by_hand.nil? ? 0 : d.first.by_hand
-      result = (bh) > 0 ? d.first.by_hand : d.first.calculated 
+      bh = d.first.by_hand.nil? ? 0 : d.first.by_hand.to_i
+      result = (bh > 0 || d.first.forced )? d.first.by_hand : d.first.calculated 
       id = d.first&.id
     end
+
+    
       
     if date == date.beginning_of_month && last.to_date != date-1.day && last.to_date != date
       end_of_last_month = date-1.day
       _out = self.out(safe_id, organisation_id, last, end_of_last_month).to_i
       _in = self.in(safe_id, organisation_id, last, end_of_last_month).to_i
 
-      new_lo = d.is_a?(Integer) ? d : (d.first.by_hand.to_i > 0 ? d.first.by_hand : d.first.calculated)
+      new_lo = d.is_a?(Integer) ? d : ((d.first.by_hand.to_i > 0 || d.first.forced) ? d.first.by_hand : d.first.calculated)
       new_lo = new_lo + _in - _out
 
       if new_lo>0

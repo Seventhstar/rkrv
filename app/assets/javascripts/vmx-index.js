@@ -257,8 +257,9 @@ var m_index = {
       return "/" + this.controller + "/new?from=" + id
     },
 
-    editLink(id){
-      return "/" + this.controller + "/" + id + "/edit"
+    editLink(item){
+      controller = item.controller_name == undefined ? this.controller : item.controller_name
+      return "/" + controller + "/" + item.id + "/edit"
     },
 
     detailLink(item) {

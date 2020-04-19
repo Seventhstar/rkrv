@@ -40,8 +40,16 @@ class MoneyTransfer < ApplicationRecord
     safe_from&.code1c
   end
 
+  def safe_from_type_id
+    safe_from&.safe_type_id
+  end
+
   def safe_to_1c
     safe_to&.code1c
+  end
+
+  def safe_to_type_id
+    safe_to&.safe_type_id
   end
 
   def owner_code1c

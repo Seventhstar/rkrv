@@ -32,8 +32,10 @@
     border-radius: 0;
 }
 
-#options a{background: asset-url('options.png') no-repeat; }
-#import a{background: asset-url('import.png') no-repeat; }
+#header ul.tabs > li.menu_item:hover > a { opacity: 0.7;}
+
+#options a, #options:hover a{background: asset-url('options.png') no-repeat !important; }
+#import  a{background: asset-url('import.png') no-repeat !important; }
 
 .box_wrap input[type=text] {
   // width: 100%;

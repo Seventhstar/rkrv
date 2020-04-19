@@ -353,7 +353,6 @@ module ApplicationHelper
       end
       data.delete(:list_values)
     end
-
     return data.to_json.html_safe.to_s
   end
 

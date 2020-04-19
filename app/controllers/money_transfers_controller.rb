@@ -16,13 +16,10 @@ class MoneyTransfersController < ApplicationController
     else
       @money_transfers = MoneyTransfer.all
     end
+    
+    @money_transfers = @money_transfers.where(user_id: current_user.id) if !is_admin?
 
-    if !is_admin?
-      @money_transfers = @money_transfers.where(user_id: current_user.id)
-    end
-
-
-    @columns = %w"doc_date money_transfer_type_id safe_from_id safe_to_id amount user_id comment"
+    @columns = %w"doc_date id money_transfer_type_id safe_from_id safe_to_id amount user_id comment"
     fields  = %w"".concat(@columns)
     
     @json_data = []
@@ -84,8 +81,9 @@ class MoneyTransfersController < ApplicationController
     def def_values
       @users = User.order(:username).map{|u| {id: u.id, name: u.username.present? ? u.username : u.email, safe: u.safe_id}}
       @safes = Safe.actual.order(:name)
+
       @safe_tos = Safe.actual.order(:name)
-      @safe_froms = Safe.order(:name)
+      @safe_froms = Safe.actual.order(:name)
       @organisations = Organisation.actual.order(:name)
       @money_transfer_types = MoneyTransferType.order(:name) 
       @safe_links = SafeLink.all

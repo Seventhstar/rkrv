@@ -1,11 +1,10 @@
 class LeftoversController < ApplicationController
   before_action :set_leftover, only: [:show, :edit, :update, :destroy]
-  before_action :def_params, only: [:edit, :update, :new]
+  before_action :def_params, only: [:edit, :update, :new, :index]
   before_action :logged_in_user
   
   include RolesHelper
 
-  
   respond_to :html, :js
 
   def index
@@ -19,11 +18,13 @@ class LeftoversController < ApplicationController
 
     _where = {safe_type_id: 2, actual: true}
     _where[:id] = current_user.safes.pluck(:id) if just_manager?
+    _where[:id] = params[:s_id] if params[:s_id].present?
 
     Safe.where(_where).each.collect{ |s|
       @organisations.each.collect{ |o|
 
         start = Leftover.on_date(s.id, o.id, @current_month)
+        
         out   = Leftover.out(s.id, o.id, @current_month) 
         iin   = Leftover.in(s.id, o.id, @current_month)  
 
@@ -89,6 +90,6 @@ class LeftoversController < ApplicationController
     end
 
     def leftover_params
-      params.require(:leftover).permit(:safe_id, :organisation_id, :calculated, :by_hand, :date)
+      params.require(:leftover).permit(:safe_id, :organisation_id, :calculated, :by_hand, :date, :forced)
     end
 end
